@@ -20,3 +20,4 @@ spring:
         format_sql: true
 jwt:
   secret_key: ${JWT_SECRET_KEY}
+  expired_time: ${JWT_EXPIRED_TIME}

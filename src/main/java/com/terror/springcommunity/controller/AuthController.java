@@ -17,8 +17,9 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public ResponseEntity<ApiResponse> signup(@RequestBody SignUpDto signUpDto) {
-        ApiResponse result = authService.signup(signUpDto);
-        return ResponseEntity.status(result.getStatus()).body(result);
+    public ResponseEntity<ApiResponse> signUp(@RequestBody SignUpDto signUpDto) {
+        ApiResponse apiResponse = authService.signup(signUpDto);
+        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
     }
+
 }

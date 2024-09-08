@@ -1,5 +1,6 @@
 package com.terror.springcommunity.entity;
 
+import com.terror.springcommunity.constans.UserRoleEnum;
 import com.terror.springcommunity.model.member.SignUpDto;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -27,14 +28,18 @@ public class Member extends TimeStamp {
     @Column(nullable = false)
     private String author;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "member")
-    private List<Post> postList = new ArrayList<>();
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserRoleEnum role;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "member")
-    private List<PostLike> postLikeList = new ArrayList<>();
+    private final List<Post> postList = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "member")
-    private List<CommentLike> commentLikeList = new ArrayList<>();
+    private final List<PostLike> postLikeList = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "member")
+    private final List<CommentLike> commentLikeList = new ArrayList<>();
 
     // Dto -> Entity
     public Member(SignUpDto signUpDto) {
@@ -42,5 +47,10 @@ public class Member extends TimeStamp {
         this.password = signUpDto.getPassword();
         this.email = signUpDto.getEmail();
         this.author = signUpDto.getAuthor();
+        this.role = signUpDto.getRole();
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
     }
 }

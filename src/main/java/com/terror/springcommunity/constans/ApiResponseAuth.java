@@ -4,13 +4,13 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
-public enum ApiResponseEnum {
-    MEMBER_SAVE_SUCCESS(HttpStatus.OK,"회원가입에 성공하였습니다");
+public enum ApiResponseAuth implements ApiResponseImpl {
+    LOGIN_FAIL(HttpStatus.BAD_REQUEST,"로그인에 실패 하였습니다");
 
     private final HttpStatus status;
     private final String message;
 
-    ApiResponseEnum(HttpStatus status, String message) {
+    ApiResponseAuth(HttpStatus status, String message) {
         this.status = status;
         this.message = message;
     }
