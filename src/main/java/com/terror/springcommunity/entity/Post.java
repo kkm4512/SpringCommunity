@@ -1,5 +1,6 @@
 package com.terror.springcommunity.entity;
 
+import com.terror.springcommunity.model.post.PostRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,4 +31,15 @@ public class Post extends TimeStamp {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "post")
     private List<Comment> commentList = new ArrayList<>();
+
+    public Post(PostRequestDto reqDto) {
+        this.title = reqDto.getTitle();
+        this.content = reqDto.getContent();
+    }
+
+    // Post -> Member 연관관계 설정
+    public void addMember(Member member){
+        this.member = member;
+    }
+
 }

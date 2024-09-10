@@ -21,5 +21,4 @@ public class AuthController {
         ApiResponse apiResponse = authService.signup(signUpDto);
         return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
     }
-
 }

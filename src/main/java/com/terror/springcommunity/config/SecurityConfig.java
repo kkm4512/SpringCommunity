@@ -6,8 +6,6 @@ import com.terror.springcommunity.security.HandlerFilterException;
 import com.terror.springcommunity.security.JwtAuthenticationFilter;
 import com.terror.springcommunity.security.JwtAuthorizationFilter;
 import com.terror.springcommunity.security.UserDetailsServiceImpl;
-import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-public class FilterConfig {
+public class SecurityConfig {
     private final JwtManager jm;
     private final AuthenticationConfiguration authenticationConfiguration;
     private final UserDetailsServiceImpl userDetailsService;
@@ -37,7 +35,7 @@ public class FilterConfig {
         return new BCryptPasswordEncoder();
     }
 
-    public FilterConfig(
+    public SecurityConfig(
             JwtManager jm,
             UserDetailsServiceImpl userDetailsService,
             AuthenticationConfiguration authenticationConfiguration,
