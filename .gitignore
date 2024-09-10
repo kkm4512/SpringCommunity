@@ -40,4 +40,4 @@ out/
 .env
 
 ### SSL ###
-src/main/resources/springCommunitySecurity
+src/main/resources/springCommunitySecurity.p12
