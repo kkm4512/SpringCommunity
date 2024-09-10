@@ -1,10 +1,11 @@
 package com.terror.springcommunity.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.terror.springcommunity.constans.ApiResponseAuth;
+import com.terror.springcommunity.constans.ApiResponseAuthEnum;
 import com.terror.springcommunity.exception.AuthException;
 import com.terror.springcommunity.jwt.JwtManager;
 import com.terror.springcommunity.model.JwtDto;
+import com.terror.springcommunity.model.apiResponse.ApiResponse;
 import com.terror.springcommunity.model.member.SignInDto;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -52,11 +53,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         JwtDto jwtDto = new JwtDto(member.getMember());
         String jwt = jm.createJwt(jwtDto);
         jm.addJwtToHeader(jwt, res);
+        ApiResponse apiResponse = new ApiResponse(ApiResponseAuthEnum.LOGIN_SUCCESS);
+        res.setStatus(apiResponse.getStatus());
+        res.setContentType("application/json;charset=UTF-8");
+        res.getWriter().write(objectMapper.writeValueAsString(apiResponse));
     }
 
     //로그인 실패
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest req, HttpServletResponse res, AuthenticationException failed) throws IOException, ServletException {
-        throw new AuthException(ApiResponseAuth.LOGIN_FAIL);
+        throw new AuthException(ApiResponseAuthEnum.LOGIN_FAIL);
     }
 }

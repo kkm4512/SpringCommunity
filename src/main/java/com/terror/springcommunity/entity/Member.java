@@ -53,4 +53,10 @@ public class Member extends TimeStamp {
     public void updatePassword(String password) {
         this.password = password;
     }
+
+    // Member -> Post 연관관계 설정
+    public void addPost(Post post){
+        this.postList.add(post);
+        post.addMember(this);
+    }
 }

@@ -1,10 +1,11 @@
 package com.terror.springcommunity.model.post;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class PostRequestDto {
-    private Long memberId;
     private String title;
     private String content;
 }
