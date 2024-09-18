@@ -1,11 +1,5 @@
 server:
   port: ${SERVER_PORT}
-  ssl:
-    enabled: true
-    key-store: src/main/resources/springCommunitySecurity.p12
-    key-store-password: !@skdud340
-    key-store-type: PKCS12
-    key-alias: springCommunitySecurity
 # DB config
 spring:
   config:
@@ -27,3 +21,4 @@ spring:
 jwt:
   secret_key: ${JWT_SECRET_KEY}
   expired_time: ${JWT_EXPIRED_TIME}
+
