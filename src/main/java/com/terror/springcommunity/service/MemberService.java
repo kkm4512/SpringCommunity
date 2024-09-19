@@ -1,0 +1,18 @@
+package com.terror.springcommunity.service;
+
+import com.terror.springcommunity.constans.ApiResponseMemberEnum;
+import com.terror.springcommunity.entity.Member;
+import com.terror.springcommunity.exception.MemberException;
+import com.terror.springcommunity.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class MemberService {
+    private final MemberRepository memberRepository;
+
+    public Member findByMemberId(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(() -> new MemberException(ApiResponseMemberEnum.MEMBER_NOT_FOUND));
+    }
+}
