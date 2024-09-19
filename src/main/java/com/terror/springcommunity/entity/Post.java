@@ -36,9 +36,11 @@ public class Post extends TimeStamp {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "post")
     private List<Comment> commentList = new ArrayList<>();
 
-    // Post -> Member 연관관계 설정
-    public void addMember(Member member){
-        this.member = member;
+
+    // Post -> Comment 연관관계 설정
+    public void addComment(Comment comment) {
+        this.commentList.add(comment);
+        comment.addPost(this);
     }
 
     public static Post fromPostRequestDto(PostRequestDto reqDto) {
@@ -57,6 +59,7 @@ public class Post extends TimeStamp {
         boolean check = this.member.equals(member);
         if (!check) throw new PostException(ApiResponsePostEnum.POST_WRITER_DIFFERENT);
     }
+
 
     public void updatePost(PostRequestDto updatePost){
         this.title = updatePost.getTitle();
