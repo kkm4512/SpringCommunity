@@ -10,6 +10,7 @@ import lombok.Value;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Entity
@@ -39,21 +40,26 @@ public class Member extends TimeStamp {
     private final List<Post> postList = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "member")
+    private final List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "member")
     private final List<PostLike> postLikeList = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "member")
     private final List<CommentLike> commentLikeList = new ArrayList<>();
 
 
-
     public void updatePassword(String password) {
         this.password = password;
     }
 
-    // Member <-> Post 연관관계 설정
+    // Member -> Post 연관관계 설정
     public void addPost(Post post){
         this.postList.add(post);
-        post.addMember(this);
+    }
+
+    public void addComment(Comment comment){
+        this.commentList.add(comment);
     }
 
     public static Member fromSignUpDto(SignUpDto signUpDto){
@@ -65,5 +71,17 @@ public class Member extends TimeStamp {
                 signUpDto.getAuthor(),
                 signUpDto.getRole()
         );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Member member)) return false;
+        return Objects.equals(id, member.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }
