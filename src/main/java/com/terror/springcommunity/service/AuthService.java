@@ -18,7 +18,7 @@ public class AuthService {
 
     @Transactional
     public ApiResponse signup(SignUpDto signUpDto) {
-        Member member = new Member(signUpDto);
+        Member member = Member.fromSignUpDto(signUpDto);
         String hashedPassword = pe.encode(member.getPassword());
         member.updatePassword(hashedPassword);
         authRepository.save(member);
