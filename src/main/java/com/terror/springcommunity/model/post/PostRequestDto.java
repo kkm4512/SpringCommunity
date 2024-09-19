@@ -8,4 +8,11 @@ import lombok.Getter;
 public class PostRequestDto {
     private String title;
     private String content;
+
+    public static PostRequestDto of(String title, String content) {
+        return new PostRequestDto(
+                title,
+                content
+        );
+    }
 }
