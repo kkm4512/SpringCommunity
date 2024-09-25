@@ -1,22 +1,18 @@
-package com.terror.springcommunity.service;
+package com.terror.springcommunity.service.post;
 
-import com.terror.springcommunity.constans.ApiResponseMemberEnum;
 import com.terror.springcommunity.constans.ApiResponsePostEnum;
 import com.terror.springcommunity.entity.Member;
 import com.terror.springcommunity.entity.Post;
-import com.terror.springcommunity.exception.MemberException;
 import com.terror.springcommunity.exception.PostException;
-import com.terror.springcommunity.model.apiResponse.ApiResponse;
 import com.terror.springcommunity.model.apiResponse.post.ApiResponsePost;
 import com.terror.springcommunity.model.post.PostRequestDto;
 import com.terror.springcommunity.model.post.PostResponseDto;
 import com.terror.springcommunity.repository.MemberRepository;
 import com.terror.springcommunity.repository.PostRepository;
+import com.terror.springcommunity.service.member.MemberServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,10 +21,10 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class PostService {
+public class PostServiceImpl implements PostService {
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
-    private final MemberService memberService;
+    private final MemberServiceImpl memberService;
     private final static List<PostResponseDto> emptyPosts = new ArrayList<>();
 
     @Transactional
@@ -58,7 +54,7 @@ public class PostService {
     @Transactional
     public ApiResponsePost deletePost(Long memberId, Long postId) {
         Member member = memberService.findByMemberId(memberId);
-        Post post = findByPost(postId);
+        Post post = findByPostId(postId);
         post.isWrittenByMember(member);
         postRepository.delete(post);
         return new ApiResponsePost(ApiResponsePostEnum.POST_DELETE_SUCCESS,emptyPosts);
@@ -67,7 +63,7 @@ public class PostService {
     @Transactional
     public ApiResponsePost updatePost(Long memberId, Long postId, PostRequestDto reqDto) {
         Member member = memberService.findByMemberId(memberId);
-        Post post = findByPost(postId);
+        Post post = findByPostId(postId);
         post.isWrittenByMember(member);
         post.updatePost(reqDto);
         return new ApiResponsePost(ApiResponsePostEnum.POST_UPDATE_SUCCESS,emptyPosts);
@@ -80,7 +76,7 @@ public class PostService {
      * @throws PostException 찾고자 하는 게시굴이 없을 경우 발생되는 예외
      */
 
-    public Post findByPost(Long postId){
+    public Post findByPostId(Long postId){
         return postRepository.findById(postId).orElseThrow(() -> new PostException(ApiResponsePostEnum.POST_GET_FAIL));
     }
 
