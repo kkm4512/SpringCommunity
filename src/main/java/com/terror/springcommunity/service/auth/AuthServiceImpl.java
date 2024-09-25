@@ -1,4 +1,4 @@
-package com.terror.springcommunity.service;
+package com.terror.springcommunity.service.auth;
 
 import com.terror.springcommunity.constans.ApiResponseEnum;
 import com.terror.springcommunity.entity.Member;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class AuthServiceImpl implements AuthService {
     private final AuthRepository authRepository;
 
     public ApiResponse signup(SignUpDto signUpDto) {
