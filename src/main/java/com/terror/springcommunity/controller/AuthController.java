@@ -2,7 +2,7 @@ package com.terror.springcommunity.controller;
 
 import com.terror.springcommunity.model.apiResponse.ApiResponse;
 import com.terror.springcommunity.model.member.SignUpDto;
-import com.terror.springcommunity.service.auth.AuthService;
+import com.terror.springcommunity.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
