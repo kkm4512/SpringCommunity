@@ -1,4 +1,4 @@
-package com.terror.springcommunity.service;
+package com.terror.springcommunity.service.auth;
 
 import com.terror.springcommunity.constans.ApiResponseMemberEnum;
 import com.terror.springcommunity.entity.Member;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class AuthServiceImpl implements AuthService {
     private final AuthRepository authRepository;
     private final PasswordEncoder pe;
 
