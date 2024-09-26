@@ -2,13 +2,12 @@ package com.terror.springcommunity.service;
 
 import com.terror.springcommunity.common.TestUserEnum;
 import com.terror.springcommunity.constans.ApiResponseMemberEnum;
-import com.terror.springcommunity.constans.UserRoleEnum;
 import com.terror.springcommunity.entity.Member;
 import com.terror.springcommunity.exception.MemberException;
 import com.terror.springcommunity.model.member.SignUpDto;
 import com.terror.springcommunity.model.post.PostRequestDto;
 import com.terror.springcommunity.repository.MemberRepository;
-import com.terror.springcommunity.repository.PostRepository;
+import com.terror.springcommunity.service.post.PostServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -24,7 +23,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
@@ -61,7 +59,7 @@ class PostServiceTest {
     }
 
     @InjectMocks
-    PostService postService;
+    PostServiceImpl postService;
 
     @Mock
     MemberRepository memberRepository;

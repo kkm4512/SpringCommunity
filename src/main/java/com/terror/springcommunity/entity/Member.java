@@ -53,13 +53,12 @@ public class Member extends TimeStamp {
         this.password = password;
     }
 
-    // Member -> Post 연관관계 설정
-    public void addPost(Post post){
-        this.postList.add(post);
-    }
-
     public void addComment(Comment comment){
         this.commentList.add(comment);
+    }
+
+    public void addPostList(Post post) {
+        this.postList.add(post);
     }
 
     public static Member fromSignUpDto(SignUpDto signUpDto){

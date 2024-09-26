@@ -28,4 +28,9 @@ public class PostLike {
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
+
+    public PostLike(Member member, Post post) {
+        this.member = member;
+        this.post = post;
+    }
 }

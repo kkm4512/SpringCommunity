@@ -43,6 +43,12 @@ public class Post extends TimeStamp {
         comment.addPost(this);
     }
 
+    // Post -> Member 연관관계 설정
+    public void addMember(Member member) {
+        this.member = member;
+        member.addPostList(this);
+    }
+
     public static Post fromPostRequestDto(PostRequestDto reqDto) {
         return new Post(
                 null,
