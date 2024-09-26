@@ -31,8 +31,8 @@ public class PostServiceImpl implements PostService {
     public ApiResponsePost createPost(Long memberId, PostRequestDto postRequestDto) {
         Member member = memberService.findByMemberId(memberId);
         Post post = Post.fromPostRequestDto(postRequestDto);
-        member.addPost(post);
-        memberRepository.save(member);
+        post.addMember(member);
+        postRepository.save(post);
         return new ApiResponsePost(ApiResponsePostEnum.POST_SAVE_SUCCESS,emptyPosts);
     }
 
@@ -76,6 +76,7 @@ public class PostServiceImpl implements PostService {
      * @throws PostException 찾고자 하는 게시굴이 없을 경우 발생되는 예외
      */
 
+    @Transactional(readOnly = true)
     public Post findByPostId(Long postId){
         return postRepository.findById(postId).orElseThrow(() -> new PostException(ApiResponsePostEnum.POST_GET_FAIL));
     }

@@ -65,6 +65,6 @@ public class Comment extends TimeStamp{
     // 댓글 작성자가 본인이 맞는지 확인
     public void isWrittenMember(Member member) {
        boolean check = this.member.equals(member);
-       if (!check) throw new CommentException(ApiResponseCommentEnum.COMMENT_GET_FAIL);
+       if (!check) throw new CommentException(ApiResponseCommentEnum.COMMENT_WRITER_DIFFERENT);
     }
 }
