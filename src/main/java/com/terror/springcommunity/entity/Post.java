@@ -7,14 +7,20 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Embeddable
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
 @AllArgsConstructor
+@DynamicUpdate
 public class Post extends TimeStamp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
