@@ -45,27 +45,25 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public ApiResponsePost createPost(Long memberId, PostRequestDto postRequestDto) {
         Member member = memberService.findByMemberId(memberId);
-        for ( int i=0; i<1000; i++ ) {
-            Post post = Post.fromPostRequestDto(postRequestDto);
-            post.addMember(member);
-            postRepository.save(post);
-        }
-        return new ApiResponsePost(ApiResponsePostEnum.POST_SAVE_SUCCESS,emptyPosts);
+        Post post = Post.fromPostRequestDto(postRequestDto);
+        post.addMember(member);
+        postRepository.save(post);
+        return new ApiResponsePost(ApiResponsePostEnum.POST_SAVE_SUCCESS, emptyPosts);
     }
 
     @Transactional(readOnly = true)
     public ApiResponsePost getMyPosts(Long memberId, Pageable pageable) {
         Member member = memberService.findByMemberId(memberId);
-        Page<Post> pagePosts = postRepository.findAllByMember(member,pageable);
+        Page<Post> pagePosts = postRepository.findAllByMember(member, pageable);
         List<PostResponseDto> posts = pagePosts.map(PostResponseDto::new).stream().toList();
-        return new ApiResponsePost(ApiResponsePostEnum.POST_GET_SUCCESS,posts);
+        return new ApiResponsePost(ApiResponsePostEnum.POST_GET_SUCCESS, posts);
     }
 
     @Transactional(readOnly = true)
     public ApiResponsePost getMyPostsWithOtherPosts(Pageable pageable) {
         Page<Post> posts = postRepository.findAllBy(pageable);
         List<PostResponseDto> postList = posts.map(PostResponseDto::new).stream().toList();
-        return new ApiResponsePost(ApiResponsePostEnum.POST_GET_SUCCESS,postList);
+        return new ApiResponsePost(ApiResponsePostEnum.POST_GET_SUCCESS, postList);
     }
 
     @Transactional
@@ -74,7 +72,7 @@ public class PostServiceImpl implements PostService {
         Post post = findByPostId(postId);
         post.isWrittenByMember(member);
         postRepository.delete(post);
-        return new ApiResponsePost(ApiResponsePostEnum.POST_DELETE_SUCCESS,emptyPosts);
+        return new ApiResponsePost(ApiResponsePostEnum.POST_DELETE_SUCCESS, emptyPosts);
     }
 
     @Transactional
@@ -83,28 +81,28 @@ public class PostServiceImpl implements PostService {
         Post post = findByPostId(postId);
         post.isWrittenByMember(member);
         post.updatePost(reqDto);
-        return new ApiResponsePost(ApiResponsePostEnum.POST_UPDATE_SUCCESS,emptyPosts);
+        return new ApiResponsePost(ApiResponsePostEnum.POST_UPDATE_SUCCESS, emptyPosts);
     }
 
     @Transactional(readOnly = true)
     public ApiResponsePost getAllPostJpaInJava(Long memberId) {
         Member member = memberService.findByMemberId(memberId);
         List<PostResponseDto> postList = member.getPostList().stream().map(PostResponseDto::new).toList();
-        return new ApiResponsePost(ApiResponsePostEnum.POST_GET_SUCCESS,postList);
+        return new ApiResponsePost(ApiResponsePostEnum.POST_GET_SUCCESS, postList);
     }
 
     @Transactional(readOnly = true)
     public ApiResponsePost getAllPostJpaOutJava(Long memberId) {
         List<Post> posts = postRepository.findAllByMemberId(memberId);
         List<PostResponseDto> postList = posts.stream().map(PostResponseDto::new).toList();
-        return new ApiResponsePost(ApiResponsePostEnum.POST_GET_SUCCESS,postList);
+        return new ApiResponsePost(ApiResponsePostEnum.POST_GET_SUCCESS, postList);
     }
 
     @Transactional(readOnly = true)
     public ApiResponsePost getAllPostMyBatis(Long memberId) {
         List<Post> posts = postMapper.findPostsByMemberId(memberId);
         List<PostResponseDto> postList = posts.stream().map(PostResponseDto::new).toList();
-        return new ApiResponsePost(ApiResponsePostEnum.POST_GET_SUCCESS,postList);
+        return new ApiResponsePost(ApiResponsePostEnum.POST_GET_SUCCESS, postList);
     }
 
     @Override
@@ -113,18 +111,19 @@ public class PostServiceImpl implements PostService {
         Member member = memberService.findByMemberId(memberId);
         List<Post> posts = postRepositoryQuery.findAllPostsByMember(member);
         List<PostResponseDto> postList = posts.stream().map(PostResponseDto::new).toList();
-        return new ApiResponsePost(ApiResponsePostEnum.POST_GET_SUCCESS,postList);
+        return new ApiResponsePost(ApiResponsePostEnum.POST_GET_SUCCESS, postList);
     }
 
     /**
-     *  게시글의 id로 게시글 찾고 있다면 게시글 반환
+     * 게시글의 id로 게시글 찾고 있다면 게시글 반환
+     *
      * @param postId 조회하고자 하는 게시글의 ID
      * @return 조회 게시글 반환
      * @throws PostException 찾고자 하는 게시굴이 없을 경우 발생되는 예외
      */
 
     @Transactional(readOnly = true)
-    public Post findByPostId(Long postId){
+    public Post findByPostId(Long postId) {
         return postRepository.findById(postId).orElseThrow(() -> new PostException(ApiResponsePostEnum.POST_GET_FAIL));
     }
 
