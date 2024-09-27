@@ -4,13 +4,13 @@ import com.terror.springcommunity.constans.ApiResponsePostEnum;
 import com.terror.springcommunity.entity.Member;
 import com.terror.springcommunity.entity.Post;
 import com.terror.springcommunity.exception.PostException;
+import com.terror.springcommunity.mapper.PostMapper;
 import com.terror.springcommunity.model.apiResponse.post.ApiResponsePost;
 import com.terror.springcommunity.model.post.PostRequestDto;
 import com.terror.springcommunity.model.post.PostResponseDto;
 import com.terror.springcommunity.repository.MemberRepository;
 import com.terror.springcommunity.repository.PostRepository;
-import com.terror.springcommunity.service.member.MemberServiceImpl;
-import lombok.RequiredArgsConstructor;
+import com.terror.springcommunity.service.member.MemberService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,19 +20,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
-    private final MemberServiceImpl memberService;
+    private final MemberService memberService;
+    private final PostMapper postMapper;
+    private final PostRepositoryQuery postRepositoryQuery;
     private final static List<PostResponseDto> emptyPosts = new ArrayList<>();
+
+    public PostServiceImpl(
+            MemberRepository memberRepository,
+            PostRepository postRepository,
+            MemberService memberService,
+            PostMapper postMapper,
+            PostRepositoryQuery postRepositoryQuery
+    ) {
+        this.memberRepository = memberRepository;
+        this.postRepository = postRepository;
+        this.memberService = memberService;
+        this.postMapper = postMapper;
+        this.postRepositoryQuery = postRepositoryQuery;
+    }
 
     @Transactional
     public ApiResponsePost createPost(Long memberId, PostRequestDto postRequestDto) {
         Member member = memberService.findByMemberId(memberId);
-        Post post = Post.fromPostRequestDto(postRequestDto);
-        post.addMember(member);
-        postRepository.save(post);
+        for ( int i=0; i<1000; i++ ) {
+            Post post = Post.fromPostRequestDto(postRequestDto);
+            post.addMember(member);
+            postRepository.save(post);
+        }
         return new ApiResponsePost(ApiResponsePostEnum.POST_SAVE_SUCCESS,emptyPosts);
     }
 
@@ -67,6 +84,36 @@ public class PostServiceImpl implements PostService {
         post.isWrittenByMember(member);
         post.updatePost(reqDto);
         return new ApiResponsePost(ApiResponsePostEnum.POST_UPDATE_SUCCESS,emptyPosts);
+    }
+
+    @Transactional(readOnly = true)
+    public ApiResponsePost getAllPostJpaInJava(Long memberId) {
+        Member member = memberService.findByMemberId(memberId);
+        List<PostResponseDto> postList = member.getPostList().stream().map(PostResponseDto::new).toList();
+        return new ApiResponsePost(ApiResponsePostEnum.POST_GET_SUCCESS,postList);
+    }
+
+    @Transactional(readOnly = true)
+    public ApiResponsePost getAllPostJpaOutJava(Long memberId) {
+        List<Post> posts = postRepository.findAllByMemberId(memberId);
+        List<PostResponseDto> postList = posts.stream().map(PostResponseDto::new).toList();
+        return new ApiResponsePost(ApiResponsePostEnum.POST_GET_SUCCESS,postList);
+    }
+
+    @Transactional(readOnly = true)
+    public ApiResponsePost getAllPostMyBatis(Long memberId) {
+        List<Post> posts = postMapper.findPostsByMemberId(memberId);
+        List<PostResponseDto> postList = posts.stream().map(PostResponseDto::new).toList();
+        return new ApiResponsePost(ApiResponsePostEnum.POST_GET_SUCCESS,postList);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ApiResponsePost getAllPostQueryDsl(Long memberId) {
+        Member member = memberService.findByMemberId(memberId);
+        List<Post> posts = postRepositoryQuery.findAllPostsByMember(member);
+        List<PostResponseDto> postList = posts.stream().map(PostResponseDto::new).toList();
+        return new ApiResponsePost(ApiResponsePostEnum.POST_GET_SUCCESS,postList);
     }
 
     /**

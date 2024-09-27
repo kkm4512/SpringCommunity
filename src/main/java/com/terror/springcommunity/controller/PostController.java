@@ -72,4 +72,40 @@ public class PostController {
         Long memberId = userDetails.getId();
         return postService.updatePost(memberId,postId,reqDto);
     }
+
+    // 양방향 매핑을 이용했을때의 조회 속도
+    @GetMapping("/jpaInJava")
+    public ApiResponsePost getMyPostsJava(
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ){
+        Long memberId = userDetails.getId();
+        return postService.getAllPostJpaInJava(memberId);
+    }
+
+    // 양방향 매핑을 이용하지 않을때의 속도
+    @GetMapping("/jpaOutJava")
+    public ApiResponsePost getMyPostsNoJava(
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ){
+        Long memberId = userDetails.getId();
+        return postService.getAllPostJpaInJava(memberId);
+    }
+
+    // MyBatis를 활용한 조회속도
+    @GetMapping("/myBatis")
+    public ApiResponsePost getMyPostsMyBatis(
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ){
+        Long memberId = userDetails.getId();
+        return postService.getAllPostMyBatis(memberId);
+    }
+
+    // queryDsl로 조회한 속도
+    @GetMapping("/queryDsl")
+    public ApiResponsePost getMyPostsQueryDsl(
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ){
+        Long memberId = userDetails.getId();
+        return postService.getAllPostQueryDsl(memberId);
+    }
 }

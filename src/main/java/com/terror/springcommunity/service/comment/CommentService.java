@@ -8,5 +8,5 @@ public interface CommentService {
     ApiResponseComment createComment(Long postId, Long memberId, CommentRequestDto reqDto);
     ApiResponseComment deleteComment(Long commentId, Long memberId);
     ApiResponseComment updateComment(Long commentId, Long memberId, CommentRequestDto reqDto);
-    Comment findByComment(Long commentId);
+    Comment findByCommentId(Long commentId);
 }

@@ -4,9 +4,14 @@ import com.terror.springcommunity.common.TestUserEnum;
 import com.terror.springcommunity.constans.ApiResponseMemberEnum;
 import com.terror.springcommunity.entity.Member;
 import com.terror.springcommunity.exception.MemberException;
+import com.terror.springcommunity.mapper.PostMapper;
+import com.terror.springcommunity.model.apiResponse.post.ApiResponsePost;
 import com.terror.springcommunity.model.member.SignUpDto;
 import com.terror.springcommunity.model.post.PostRequestDto;
 import com.terror.springcommunity.repository.MemberRepository;
+import com.terror.springcommunity.repository.PostRepository;
+import com.terror.springcommunity.service.member.MemberService;
+import com.terror.springcommunity.service.post.PostService;
 import com.terror.springcommunity.service.post.PostServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -37,6 +42,21 @@ class PostServiceTest {
     PostRequestDto testPostRequestDto1;
     PostRequestDto testPostRequestDto2;
 
+    @Mock
+    MemberRepository memberRepository;
+
+    @Mock
+    PostRepository postRepository;
+
+    @Mock
+    MemberService memberService;
+
+    @Mock
+    PostMapper postMapper;
+
+    @InjectMocks
+    PostServiceImpl postService;
+
     @BeforeEach
     void setUp() {
         // 테스트 유저 생성 1
@@ -58,12 +78,6 @@ class PostServiceTest {
         testPostRequestDto2 = PostRequestDto.of("테스트 제목2", "테스트 본문2");
     }
 
-    @InjectMocks
-    PostServiceImpl postService;
-
-    @Mock
-    MemberRepository memberRepository;
-
     @Nested
     public class 게시글_테스트 {
 
@@ -71,34 +85,37 @@ class PostServiceTest {
         @DisplayName("게시글 생성 성공")
         void test1() {
             //given - 멤버 조회시, 특정 멤버가 나오게 상황 부여
-            given(memberRepository.findById(testMember1Id)).willReturn(Optional.of(testMember1));
+            given(memberService.findByMemberId(testMember1Id)).willReturn(testMember1);
+            String expectedMessage = "게시글 저장에 성공 하였습니다";
 
             //when - 실제 게시글 생성 작업 시도
-            postService.createPost(testMember1Id, testPostRequestDto1);
+            ApiResponsePost result = postService.createPost(testMember1Id, testPostRequestDto1);
 
             //then - 각 메서드가 한번씩 호출됐는지 검증
-            then(memberRepository).should(times(1)).findById(testMember1Id);
-            then(memberRepository).should(times(1)).save(testMember1);
+            assertEquals(
+                    expectedMessage,
+                    result.getMessage()
+            );
         }
 
         @Test
         @DisplayName("게시글 생성 실패, 멤버 찾기 실패")
         void test2() {
             //given - 멤버 조회시, 멤버 미조회 상황 부여
-            given(memberRepository.findById(testMember2Id)).willReturn(Optional.empty());
+            given(memberService.findByMemberId(testMember1Id)).willThrow(MemberException.class);
 
             //given - 멤버 미조회 실패 예외 준비
             MemberException expectedException = new MemberException(ApiResponseMemberEnum.MEMBER_NOT_FOUND);
 
             //when - 실제 게시글 생성 작업 시도
             MemberException actualException = assertThrows(MemberException.class, () ->
-                postService.createPost(testMember2Id, testPostRequestDto2)
+                postService.createPost(testMember1Id, testPostRequestDto2)
             );
 
             //then - 서로가 같은 exception 인지 확인, 각 메서드 호출 횟수가 일치하는지 확인
-            assertEquals(expectedException.getClass(),actualException.getClass());
-            then(memberRepository).should(times(1)).findById(testMember2Id);
-            then(memberRepository).should(times(0)).save(testMember2);
+            assertEquals(
+                    expectedException.getClass(),
+                    actualException.getClass());
         }
     }
 }

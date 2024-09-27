@@ -9,7 +9,6 @@ import com.terror.springcommunity.model.apiResponse.comment.ApiResponseComment;
 import com.terror.springcommunity.model.comment.CommentRequestDto;
 import com.terror.springcommunity.model.comment.CommentResponseDto;
 import com.terror.springcommunity.repository.CommentRepository;
-import com.terror.springcommunity.repository.MemberRepository;
 import com.terror.springcommunity.service.member.MemberServiceImpl;
 import com.terror.springcommunity.service.post.PostServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +41,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public ApiResponseComment deleteComment(Long commentId, Long memberId) {
         Member member = memberService.findByMemberId(memberId);
-        Comment comment = findByComment(commentId);
+        Comment comment = findByCommentId(commentId);
         comment.isWrittenMember(member);
         commentRepository.delete(comment);
         return new ApiResponseComment(ApiResponseCommentEnum.COMMENT_DELETE_SUCCESS,emptyComments);
@@ -51,13 +50,13 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public ApiResponseComment updateComment(Long commentId, Long memberId, CommentRequestDto reqDto) {
         Member member = memberService.findByMemberId(memberId);
-        Comment comment = findByComment(commentId);
+        Comment comment = findByCommentId(commentId);
         comment.isWrittenMember(member);
         comment.updateComment(reqDto);
         return new ApiResponseComment(ApiResponseCommentEnum.COMMENT_UPDATE_SUCCESS,emptyComments);
     }
 
-    public Comment findByComment(Long commentId) {
+    public Comment findByCommentId(Long commentId) {
         return commentRepository.findById(commentId).orElseThrow(() -> new CommentException(ApiResponseCommentEnum.COMMENT_GET_FAIL));
     }
 }
