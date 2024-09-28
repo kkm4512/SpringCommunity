@@ -1,5 +1,6 @@
 package com.terror.springcommunity.controller;
 
+import com.terror.springcommunity.model.apiResponse.ApiResponse;
 import com.terror.springcommunity.security.UserDetailsImpl;
 import com.terror.springcommunity.service.commentLike.CommentLikeService;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentLikeController {
     private final CommentLikeService commentLikeService;
 
-    @GetMapping("/{commentId}")
-    public void toggleLike(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long commentId) {
+    @GetMapping("/{postId}/{commentId}")
+    public ApiResponse toggleLike(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long commentId, @PathVariable Long postId) {
         Long memberId = userDetails.getId();
-        commentLikeService.toggleLike(memberId, commentId);
+        return commentLikeService.toggleLike(memberId, commentId, postId);
     }
 }
