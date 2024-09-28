@@ -1,7 +1,7 @@
 package com.terror.springcommunity.service.commentLike;
 
-import com.terror.springcommunity.model.apiResponse.comment.ApiResponseComment;
+import com.terror.springcommunity.model.apiResponse.ApiResponse;
 
 public interface CommentLikeService {
-    ApiResponseComment toggleLike(Long memberId, Long commentId);
+    ApiResponse toggleLike(Long memberId, Long commentId, Long postId);
 }

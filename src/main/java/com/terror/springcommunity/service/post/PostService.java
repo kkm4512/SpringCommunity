@@ -11,9 +11,4 @@ public interface PostService {
     ApiResponsePost getMyPostsWithOtherPosts(Pageable pageable);
     ApiResponsePost deletePost(Long memberId, Long postId);
     ApiResponsePost updatePost(Long memberId, Long postId, PostRequestDto reqDto);
-    ApiResponsePost getAllPostJpaInJava(Long memberId);
-    ApiResponsePost getAllPostJpaOutJava(Long memberId);
-    ApiResponsePost getAllPostMyBatis(Long memberId);
-    ApiResponsePost getAllPostQueryDsl(Long memberId);
-    Post findByPostId(Long postId);
 }

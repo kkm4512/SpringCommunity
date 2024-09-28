@@ -91,28 +91,6 @@ public class PostServiceImpl implements PostService {
         return new ApiResponsePost(ApiResponsePostEnum.POST_GET_SUCCESS, postList);
     }
 
-    @Transactional(readOnly = true)
-    public ApiResponsePost getAllPostJpaOutJava(Long memberId) {
-        List<Post> posts = postRepository.findAllByMemberId(memberId);
-        List<PostResponseDto> postList = posts.stream().map(PostResponseDto::new).toList();
-        return new ApiResponsePost(ApiResponsePostEnum.POST_GET_SUCCESS, postList);
-    }
-
-    @Transactional(readOnly = true)
-    public ApiResponsePost getAllPostMyBatis(Long memberId) {
-        List<Post> posts = postMapper.findPostsByMemberId(memberId);
-        List<PostResponseDto> postList = posts.stream().map(PostResponseDto::new).toList();
-        return new ApiResponsePost(ApiResponsePostEnum.POST_GET_SUCCESS, postList);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public ApiResponsePost getAllPostQueryDsl(Long memberId) {
-        Member member = memberService.findByMemberId(memberId);
-        List<Post> posts = postRepositoryQuery.findAllPostsByMember(member);
-        List<PostResponseDto> postList = posts.stream().map(PostResponseDto::new).toList();
-        return new ApiResponsePost(ApiResponsePostEnum.POST_GET_SUCCESS, postList);
-    }
 
     /**
      * 게시글의 id로 게시글 찾고 있다면 게시글 반환
