@@ -11,4 +11,5 @@ public interface PostService {
     ApiResponsePost getMyPostsWithOtherPosts(Pageable pageable);
     ApiResponsePost deletePost(Long memberId, Long postId);
     ApiResponsePost updatePost(Long memberId, Long postId, PostRequestDto reqDto);
+    Post findByPostId(Long postId);
 }

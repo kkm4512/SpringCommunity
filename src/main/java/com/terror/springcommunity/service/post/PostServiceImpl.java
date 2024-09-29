@@ -25,21 +25,18 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final MemberService memberService;
     private final PostMapper postMapper;
-    private final PostRepositoryQuery postRepositoryQuery;
     private final static List<PostResponseDto> emptyPosts = new ArrayList<>();
 
     public PostServiceImpl(
             MemberRepository memberRepository,
             PostRepository postRepository,
             MemberService memberService,
-            PostMapper postMapper,
-            PostRepositoryQuery postRepositoryQuery
+            PostMapper postMapper
     ) {
         this.memberRepository = memberRepository;
         this.postRepository = postRepository;
         this.memberService = memberService;
         this.postMapper = postMapper;
-        this.postRepositoryQuery = postRepositoryQuery;
     }
 
     @Transactional
@@ -83,14 +80,6 @@ public class PostServiceImpl implements PostService {
         post.updatePost(reqDto);
         return new ApiResponsePost(ApiResponsePostEnum.POST_UPDATE_SUCCESS, emptyPosts);
     }
-
-    @Transactional(readOnly = true)
-    public ApiResponsePost getAllPostJpaInJava(Long memberId) {
-        Member member = memberService.findByMemberId(memberId);
-        List<PostResponseDto> postList = member.getPostList().stream().map(PostResponseDto::new).toList();
-        return new ApiResponsePost(ApiResponsePostEnum.POST_GET_SUCCESS, postList);
-    }
-
 
     /**
      * 게시글의 id로 게시글 찾고 있다면 게시글 반환

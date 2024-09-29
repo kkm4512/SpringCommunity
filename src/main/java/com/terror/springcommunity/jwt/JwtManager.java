@@ -117,6 +117,7 @@ public class JwtManager {
                 return substringJwt(request.getHeader(AUTHORIZATION_HEADER));
             } return null;
         } catch (JwtException e) {
+            log.error(e.getMessage());
             throw e;
         } catch (Exception e) {
             throw new JwtException(ApiResponseJwtEnum.JWT_GET_HEADER_FAIL);
