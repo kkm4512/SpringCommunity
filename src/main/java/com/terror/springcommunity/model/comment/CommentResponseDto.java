@@ -2,12 +2,15 @@ package com.terror.springcommunity.model.comment;
 
 import com.terror.springcommunity.entity.Comment;
 import com.terror.springcommunity.model.TimeStampDto;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class CommentResponseDto extends TimeStampDto {
-    private final Long id;
-    private final String content;
+    private Long id;
+    private String content;
 
     // Entity -> Dto
     public CommentResponseDto(Comment comment) {

@@ -18,6 +18,15 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+  # Redis
+  cache:
+    type: redis
+  data:
+    redis:
+      port: ${REDIS_PORT}
+      host: ${REDIS_HOST}
+
 jwt:
   secret_key: ${JWT_SECRET_KEY}
   expired_time: ${JWT_EXPIRED_TIME}

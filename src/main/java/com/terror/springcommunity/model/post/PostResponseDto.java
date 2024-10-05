@@ -3,16 +3,19 @@ package com.terror.springcommunity.model.post;
 import com.terror.springcommunity.entity.Post;
 import com.terror.springcommunity.model.TimeStampDto;
 import com.terror.springcommunity.model.comment.CommentResponseDto;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class PostResponseDto extends TimeStampDto {
-    private final Long id;
-    private final String title;
-    private final String content;
-    private final List<CommentResponseDto> comment;
+    private Long id;
+    private String title;
+    private String content;
+    private List<CommentResponseDto> comment;
 
     // Entity -> Dto
     public PostResponseDto(Post post) {

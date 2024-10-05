@@ -7,6 +7,7 @@ import com.terror.springcommunity.service.post.PostService;
 import com.terror.springcommunity.service.post.PostServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

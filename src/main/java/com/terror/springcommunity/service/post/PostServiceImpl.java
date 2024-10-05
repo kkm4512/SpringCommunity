@@ -11,8 +11,15 @@ import com.terror.springcommunity.model.post.PostResponseDto;
 import com.terror.springcommunity.repository.MemberRepository;
 import com.terror.springcommunity.repository.PostRepository;
 import com.terror.springcommunity.service.member.MemberService;
+import com.terror.springcommunity.service.redis.RedisService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,25 +28,23 @@ import java.util.List;
 
 @Service
 public class PostServiceImpl implements PostService {
-    private final MemberRepository memberRepository;
     private final PostRepository postRepository;
     private final MemberService memberService;
-    private final PostMapper postMapper;
     private final static List<PostResponseDto> emptyPosts = new ArrayList<>();
 
     public PostServiceImpl(
-            MemberRepository memberRepository,
             PostRepository postRepository,
-            MemberService memberService,
-            PostMapper postMapper
+            MemberService memberService
     ) {
-        this.memberRepository = memberRepository;
         this.postRepository = postRepository;
         this.memberService = memberService;
-        this.postMapper = postMapper;
     }
 
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "getMyPosts",key = "'memberId:' + #memberId", cacheManager = "rcm"),
+            @CacheEvict(value = "getMyPostsWithOtherPosts",allEntries = true, cacheManager = "rcm")
+    })
     public ApiResponsePost createPost(Long memberId, PostRequestDto postRequestDto) {
         Member member = memberService.findByMemberId(memberId);
         Post post = Post.fromPostRequestDto(postRequestDto);
@@ -48,6 +53,7 @@ public class PostServiceImpl implements PostService {
         return new ApiResponsePost(ApiResponsePostEnum.POST_SAVE_SUCCESS, emptyPosts);
     }
 
+    @Cacheable(value = "getMyPosts", key = "'memberId:' + #memberId",sync = true, cacheManager = "rcm")
     @Transactional(readOnly = true)
     public ApiResponsePost getMyPosts(Long memberId, Pageable pageable) {
         Member member = memberService.findByMemberId(memberId);
@@ -56,6 +62,7 @@ public class PostServiceImpl implements PostService {
         return new ApiResponsePost(ApiResponsePostEnum.POST_GET_SUCCESS, posts);
     }
 
+    @Cacheable(value = "getMyPostsWithOtherPosts", key = "'post_all_page:' + #pageable.pageNumber" , sync = true, cacheManager = "rcm")
     @Transactional(readOnly = true)
     public ApiResponsePost getMyPostsWithOtherPosts(Pageable pageable) {
         Page<Post> posts = postRepository.findAllBy(pageable);
@@ -64,6 +71,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "getMyPosts",key = "'memberId:' + #memberId", cacheManager = "rcm"),
+            @CacheEvict(value = "getMyPostsWithOtherPosts",allEntries = true, cacheManager = "rcm")
+    })
     public ApiResponsePost deletePost(Long memberId, Long postId) {
         Member member = memberService.findByMemberId(memberId);
         Post post = findByPostId(postId);
@@ -73,12 +84,18 @@ public class PostServiceImpl implements PostService {
     }
 
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "getMyPosts",key = "'memberId:' + #memberId", cacheManager = "rcm"),
+            @CacheEvict(value = "getMyPostsWithOtherPosts",allEntries = true, cacheManager = "rcm")
+    })
     public ApiResponsePost updatePost(Long memberId, Long postId, PostRequestDto reqDto) {
         Member member = memberService.findByMemberId(memberId);
         Post post = findByPostId(postId);
+        List<Post> pagePosts = postRepository.findAll();
+        List<PostResponseDto> posts = pagePosts.stream().map(PostResponseDto::new).toList();
         post.isWrittenByMember(member);
         post.updatePost(reqDto);
-        return new ApiResponsePost(ApiResponsePostEnum.POST_UPDATE_SUCCESS, emptyPosts);
+        return new ApiResponsePost(ApiResponsePostEnum.POST_UPDATE_SUCCESS, posts);
     }
 
     /**
