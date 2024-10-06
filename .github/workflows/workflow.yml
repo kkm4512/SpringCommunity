@@ -36,6 +36,7 @@ jobs:
 
       - name: run
         run: |
+          echo "VM Public IP: $(curl ifconfig.me)"
           chmod +x gradlew
           ./gradlew clean
           ./gradlew build
@@ -43,7 +44,7 @@ jobs:
       # docker 행동 정의
       - name: docker build and push
         run: |
-          echo "VM Public IP: $(curl ifconfig.me)"
+
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }} . 
           docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}
