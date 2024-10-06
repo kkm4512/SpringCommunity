@@ -27,6 +27,12 @@ jobs: # 여러개의 작업을 정의
       # @v4는 버젼입니다
       # 즉 githubd에 있는 나의 프로젝트 코드들을, github Actions 가상머신에 복사하는 과정!
       uses: actions/checkout@v4
+    - name: mysql_set
+      uses: samin/mysql-action@v1
+      with:
+        mysql database: 'springcommunity'
+        mysql user: 'root'
+        mysql password: ${{ secrets.MYSQL_PASSWORD }}
 
     - name: java_setup # 이 단계의 이름
       # java 환경을 설정하는 Github Actions 플러그인 사용
