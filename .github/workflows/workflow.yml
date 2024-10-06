@@ -24,6 +24,12 @@ jobs: # 여러개의 작업을 정의
         with: # 플러그인 설정
           distribution: 'adopt' # AdoptOpenJDK 배포판 사용
           java-version: '17' # 17 버젼
+      - name: mysql_set
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          host port: '3306'
+          mysql database: 'springcommunity'
+          mysql root password: '!@Skdud340'
 
       - name: run unittest # 이 단계의 이름
         run: | # 커스텀 스크립트를 실행하는 명령어, 여러줄로 구성된 명령을 |를 사용하여 작성 가능 
