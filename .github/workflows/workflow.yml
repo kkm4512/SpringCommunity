@@ -28,6 +28,7 @@ jobs: # 여러개의 작업을 정의
         uses: mirromutth/mysql-action@v1.1
         with:
           host port: 3306
+          container port: '3307'
           mysql version: '8.0'
           mysql database: 'springcommunity'
           mysql root password: '!@Skdud340'
