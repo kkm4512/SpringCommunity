@@ -47,4 +47,7 @@ jobs:
           REDIS_PORT: 6379
           JWT_SECRET_KEY: RGVjb2RlIGZyb20gQmFzZTY0IGZvcm1hdFNpbXBseSBlbnRlciB5b3VyIGRhdGEgdGhlbi
           JWT_EXPIRED_TIME: 86400000
-        run: ./gradlew test  # gradle 명령어로 테스트 실행
+        run: |
+          chmod +x gradlew
+          ./gradlew clean
+          ./gradlew build
