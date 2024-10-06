@@ -21,6 +21,17 @@ jobs: # 여러개의 작업을 정의
       JWT_EXPIRED_TIME: ${{secrets.JWT_EXPIRED_TIME}}
       REDIS_PORT: ${{secrets.REDIS_PORT}}
       REDIS_HOST: ${{secrets.REDIS_HOST}}
+    services:
+      mysql:
+        image: mysql:8.0
+        ports:
+          - ${{secrets.MYSQL_PORT}}:${{secrets.MYSQL_PORT}}
+        env:
+          mysql database: ${{secrets.MYSQL_DB_NAME}}
+          mysql password: ${{secrets.MYSQL_PASSWORD}}
+          mysql root password: ${{secrets.MYSQL_PASSWORD}}
+          mysql user: ${{secrets.MYSQL_USER}}
+
     steps: # ci라는 작업에 대한 실행될 행동들 정의
     - name: git_clone # 이 단계의 이름
       # Gtihub Actions에서 제공하는 actions/checkout 플러그인을 사용하여, 레퍼지토리의 코드를 체크아웃합니다
