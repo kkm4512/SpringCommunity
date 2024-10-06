@@ -5,7 +5,7 @@ on:
     branches:
       - main
       - feature/*
-# 테스트
+# 테스트//
 jobs:
   test:
     runs-on: ubuntu-latest
