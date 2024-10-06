@@ -9,25 +9,6 @@ on: # 워크 필로우가 언제 실행될지 정의
 
 jobs: # 여러개의 작업을 정의
   ci: # 한 작업(job)의 이름
-
-    env:
-      JWT_SECRET_KEY: RGVjb2RlIGZyb20gQmFzZTY0IGZvcm1hdFNpbXBseSBlbnRlciB5b3VyIGRhdGEgdGhlbi
-      JWT_EXPIRED_TIME: 86400000
-      REDIS_PORT: 6379
-      REDIS_HOST: localhost
-      SERVER_PORT: 8080
-      MYSQL_HOST: localhost
-
-    services:
-      mysql:
-        image: mysql:5.7
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_DB_NAME: springcommunity
-          MYSQL_USER: root
-          MYSQL_PASSWORD: '!@Skdud340'
-
     runs-on: [ ubuntu-latest ] # 이 작업이 실행될 환경 지정, ubuntu 최신환경으로 하겠습니다
     steps: # ci라는 작업에 대한 실행될 행동들 정의
       - name: git_clone # 이 단계의 이름
@@ -43,6 +24,15 @@ jobs: # 여러개의 작업을 정의
         with: # 플러그인 설정
           distribution: 'adopt' # AdoptOpenJDK 배포판 사용
           java-version: '17' # 17 버젼
+      - name: mysql_set
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          host port: 3306
+          mysql version: '8.0'
+          mysql database: 'springcommunity'
+          mysql root password: '!@Skdud340'
+          mysql user: 'root'
+          mysql password: '!@Skdud340'
 
       - name: run unittest # 이 단계의 이름
         run: | # 커스텀 스크립트를 실행하는 명령어, 여러줄로 구성된 명령을 |를 사용하여 작성 가능 
