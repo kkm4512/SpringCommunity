@@ -13,7 +13,7 @@ jobs: # 여러개의 작업을 정의
     env:
       SERVER_PORT: ${{secrets.SERVER_PORT}}
       MYSQL_HOST: ${{secrets.MYSQL_HOST}}
-      MYSQL_PORT: ${{secrets.MYSQL_PORT}}
+      MYSQL_PORT: ${{secrets.DOCKER_MYSQL_PORT}}
       MYSQL_DB_NAME: ${{secrets.MYSQL_DB_NAME}}
       MYSQL_USER: ${{secrets.MYSQL_USER}}
       MYSQL_PASSWORD: ${{secrets.MYSQL_PASSWORD}}
@@ -21,14 +21,17 @@ jobs: # 여러개의 작업을 정의
       JWT_EXPIRED_TIME: ${{secrets.JWT_EXPIRED_TIME}}
       REDIS_PORT: ${{secrets.REDIS_PORT}}
       REDIS_HOST: ${{secrets.REDIS_HOST}}
+    services:
+      mysql:
+        image: mysql:8.0
+        ports:
+          - 3307:3306
+        env:
+          MYSQL_ROOT_PASSWORD: ${{secrets.MYSQL_PASSWORD}}
+          MYSQL_DATABASE: ${{secrets.MYSQL_DB_NAME}}
+          MYSQL_USER: ${{secrets.MYSQL_USER}}
+          MYSQL_PASSWORD: ${{secrets.MYSQL_PASSWORD}}
     steps: # ci라는 작업에 대한 실행될 행동들 정의
-    - name: Mysql_Start # 이 단계의 이름
-      uses: mirromutth/mysql-action@v1.1 # github actions에서 이 버젼의 mysql 쓸께요
-      with:
-        mysql database: ${{secrets.MYSQL_DB_NAME}}
-        mysql password: ${{secrets.MYSQL_PASSWORD}}
-        mysql root password: ${{secrets.MYSQL_PASSWORD}}
-        mysql user: ${{secrets.MYSQL_USER}}
     - name: git_clone # 이 단계의 이름
       # Gtihub Actions에서 제공하는 actions/checkout 플러그인을 사용하여, 레퍼지토리의 코드를 체크아웃합니다
       # @v4는 버젼입니다
