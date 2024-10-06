@@ -50,3 +50,11 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}
       - name: docker run
         uses: appleboy/ssh-action@master
+        with:
+          username: ubuntu
+          script: |
+            sudo docker rm $(sudo docker ps -a)
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}
+            cd ~
+            docker-compose up -d
+            sudo docker image prune -f
