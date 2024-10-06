@@ -25,7 +25,7 @@ jobs: # 여러개의 작업을 정의
       mysql:
         image: mysql:8.0
         ports:
-          - ${{secrets.MYSQL_PORT}}:${{secrets.MYSQL_PORT}}
+          - 3306:3306
         env:
           mysql database: ${{secrets.MYSQL_DB_NAME}}
           mysql password: ${{secrets.MYSQL_PASSWORD}}
