@@ -1,48 +1,51 @@
-name: CI
+name: 'SpringCommunity_CI' #Github Actions 워크플로우의 이름 지정
 
-on:
-  push:
-    branches: [ main, feature/* ]
+on: # 워크 필로우가 언제 실행될지 정의
+  push: # 내가 지정한 브랜치로 코드가 푸쉬쇨때 워크플로우 실행
+    branches: [ main, feature/* ] #main, feature/* 패턴에 해당하는 모든 브랜치
+  # github pull request 생성시
+  pull_request: # 내가 지정한 브랜치가 pr됐을때 실행
+    branches: [main, feature/*] # main, feature/* 패턴에 해당하는 모든 브랜치
 
-permissions: # Github Actions가 불필요한 내용 수정 방지를 위해 "읽기" 권한 부여
-  contents: read
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: git_clone # 이 단계의 이름
-        uses: actions/checkout@v3 # 내 소스코드를 github Actions VM에 복사
-
-      - name: java_setting
-        uses: actions/setup-java@v3
+jobs: # 여러개의 작업을 정의
+  ci: # 한 작업(job)의 이름
+    runs-on: [ ubuntu-latest ] # 이 작업이 실행될 환경 지정, ubuntu 최신환경으로 하겠습니다
+    env:
+      SERVER_PORT: ${{secrets.SERVER_PORT}}
+      MYSQL_HOST: ${{secrets.MYSQL_HOST}}
+      MYSQL_PORT: ${{secrets.MYSQL_PORT}}
+      MYSQL_DB_NAME: ${{secrets.MYSQL_DB_NAME}}
+      MYSQL_USER: ${{secrets.MYSQL_USER}}
+      MYSQL_PASSWORD: ${{secrets.MYSQL_PASSWORD}}
+      JWT_SECRET_KEY: ${{secrets.JWT_SECRET_KEY}}
+      JWT_EXPIRED_TIME: ${{secrets.JWT_EXPIRED_TIME}}
+      REDIS_PORT: ${{secrets.REDIS_PORT}}
+      REDIS_HOST: ${{secrets.REDIS_HOST}}
+    steps: # ci라는 작업에 대한 실행될 행동들 정의
+      - name: Mysql_Start # 이 단계의 이름
+        uses: mirromutth/mysql-action@v1.1 # github actions에서 이 버젼의 mysql 쓸께요
         with:
-          java-version: '17'
-          distribution: 'temurin' # 자바 배포판 지정
+          mysql database: ${{secrets.MYSQL_DB_NAME}}
+          mysql password: ${{secrets.MYSQL_PASSWORD}}
+          mysql root password: ${{secrets.MYSQL_PASSWORD}}
+          mysql user: ${{secrets.MYSQL_USER}}
+      - name: git_clone # 이 단계의 이름
+        # Gtihub Actions에서 제공하는 actions/checkout 플러그인을 사용하여, 레퍼지토리의 코드를 체크아웃합니다
+        # @v4는 버젼입니다
+        # 즉 githubd에 있는 나의 프로젝트 코드들을, github Actions 가상머신에 복사하는 과정!
+        uses: actions/checkout@v4
 
-      - name: make application-database.yml # 배포환경에서는 다른 yml 파일로 설정시키기 위해 새로 만들어줌
-        run: |
-
-          cd ./src/main/resources
-          
-          # application-database.yml 파일 생성
-          touch ./application-database.yml
-          
-          # 현재 나의 경로에 application-database.yml이 없다면, 내가 secret으로 설정한 database의 값을 넣어라
-          echo "${{ secrets.DATABASE }}" >> ./application-database.yml
-        shell: bash # bash shell에서 작동되게 설정
+      - name: java_setup # 이 단계의 이름
+        # java 환경을 설정하는 Github Actions 플러그인 사용
+        # 즉 Github Actions의 가상머신에 있는 현재 나의 프로젝트 코드들을 실행시키기위해 java 17버젼을 준비한다는 뜻!
+        uses: actions/setup-java@v2
+        with: # 플러그인 설정
+          distribution: 'adopt' # AdoptOpenJDK 배포판 사용
+          java-version: '17' # 17 버젼
 
 
-      - name: run
-        run: |
-          chmod +x gradlew
-          ./gradlew clean
-          ./gradlew build
 
-      # docker 행동 정의
-      - name: docker run
-        run: |
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }} . 
-          docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}
+      - name: run unittest # 이 단계의 이름
+        run: | # 커스텀 스크립트를 실행하는 명령어, 여러줄로 구성된 명령을 |를 사용하여 작성 가능 
+          chmod +x ./gradlew 
+          ./gradlew clean test
