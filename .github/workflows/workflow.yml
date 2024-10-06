@@ -1,60 +1,50 @@
-name: CI
+name: CI Pipeline
 
 on:
   push:
-    branches: [ main, feature/* ]
-
-permissions: # Github Actions가 불필요한 내용 수정 방지를 위해 "읽기" 권한 부여
-  contents: read
+    branches:
+      - main
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
+    services:
+      db:
+        image: mysql:8.0
+        ports:
+          - 3307:3306
+        options: >-
+          --health-cmd "mysqladmin ping -h localhost"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+        env:
+          MYSQL_ROOT_PASSWORD: !@Skdud340
+          MYSQL_DATABASE: springcommunity
+      redis:
+        image: redis:6.0
+        ports:
+          - 6379:6379
+
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: git_clone # 이 단계의 이름
-        uses: actions/checkout@v3 # 내 소스코드를 github Actions VM에 복사
-
-      - name: java_setting
-        uses: actions/setup-java@v3
+      - name: Set up Java 17
+        uses: actions/setup-java@v2
         with:
           java-version: '17'
-          distribution: 'temurin' # 자바 배포판 지정
+          distribution: 'temurin'
 
-      - name: make application-database.yml # 배포환경에서는 다른 yml 파일로 설정시키기 위해 새로 만들어줌
-        run: |
-
-          cd ./src/main/resources
-          
-          # application-database.yml 파일 생성
-          touch ./application-database.yml
-          
-          # 현재 나의 경로에 application-database.yml이 없다면, 내가 secret으로 설정한 database의 값을 넣어라
-          echo "${{ secrets.DATABASE }}" >> ./application-database.yml
-        shell: bash # bash shell에서 작동되게 설정
-
-
-      - name: run
-        run: |
-          echo "VM Public IP: $(curl ifconfig.me)"
-          chmod +x gradlew
-          ./gradlew clean
-          ./gradlew build
-
-      # docker 행동 정의
-      - name: docker build and push
-        run: |
-
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }} . 
-          docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}
-      - name: docker run
-        uses: appleboy/ssh-action@master
-        with:
-          username: ubuntu
-          script: |
-            sudo docker rm $(sudo docker ps -a)
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}
-            cd ~
-            docker-compose up -d
-            sudo docker image prune -f
+      - name: Run Tests
+        env:
+          MYSQL_HOST: 127.0.0.1  # 서비스 연결을 위해 localhost 사용
+          MYSQL_PORT: 3307
+          MYSQL_DB_NAME: springcommunity
+          MYSQL_NAME: root
+          MYSQL_PASSWORD: !@Skdud340
+          REDIS_HOST: 127.0.0.1
+          REDIS_PORT: 6379
+          JWT_SECRET_KEY: RGVjb2RlIGZyb20gQmFzZTY0IGZvcm1hdFNpbXBseSBlbnRlciB5b3VyIGRhdGEgdGhlbi
+          JWT_EXPIRED_TIME: 86400000
+        run: ./gradlew test  # gradle 명령어로 테스트 실행

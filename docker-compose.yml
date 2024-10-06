@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: !@Skdud340
+      MYSQL_DATABASE: springcommunity
+      MYSQL_USER: root
+      MYSQL_PASSWORD: !@Skdud340
+    ports:
+      - "3307:3306"  # CI 환경에서 연결할 때는 내부 포트와 연결
+    networks:
+      - my_network
+
+  redis:
+    image: redis:6.0
+    ports:
+      - "6379:6379"
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge
