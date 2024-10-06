@@ -19,8 +19,8 @@ jobs: # 여러개의 작업을 정의
         character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
         collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
         mysql version: '8.0' # Optional, default value is "latest". The version of the MySQL
-        mysql database: test # Optional, default value is "test". The specified database which will be create
-        mysql user: developer # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Of course you can use secrets, too
+        mysql database: springcommunity # Optional, default value is "test". The specified database which will be create
+        mysql user: root # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Of course you can use secrets, too
         mysql password: ${{ secrets.MYSQL_PASSWORD }}
     - name: git_clone # 이 단계의 이름
       # Gtihub Actions에서 제공하는 actions/checkout 플러그인을 사용하여, 레퍼지토리의 코드를 체크아웃합니다
