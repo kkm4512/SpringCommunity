@@ -26,7 +26,7 @@ jobs: # 여러개의 작업을 정의
         run: sudo service mysql start
           # root 사용자에게 권한 부여
       - name: Grant root user privileges
-        run: mysql -u root -p'!@Skdud340' -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+        run: mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;"
       - name: MYSQL CHECK
         run: mysql --version
       - name: MYSQL LOGIN
