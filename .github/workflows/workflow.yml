@@ -24,9 +24,13 @@ jobs: # 여러개의 작업을 정의
       # MySQL 서버 실행
       - name: Start MySQL service
         run: sudo service mysql start
+      # root 비밀번호 없이 로그인한 후 비밀번호 재설정
+      - name: Set root password
+        run: |
+          mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '!@Skdud340';"        
           # root 사용자에게 권한 부여
       - name: Grant root user privileges
-        run: mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+        run: mysql -u root -p'!@Skdud340' -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;"
       - name: MYSQL CHECK
         run: mysql --version
       - name: MYSQL LOGIN
