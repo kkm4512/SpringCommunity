@@ -22,11 +22,9 @@ jobs: # 여러개의 작업을 정의
       REDIS_PORT: ${{secrets.REDIS_PORT}}
       REDIS_HOST: ${{secrets.REDIS_HOST}}
     steps: # ci라는 작업에 대한 실행될 행동들 정의
-    - uses: samin/mysql-action@v1
-      with:
-        mysql root password: '!@Skdud340' # Required if "mysql user" is empty, default is empty. The root superuser password
-        mysql user: 'root' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Of course you can use secrets, too
-        mysql password: '!@Skdud340' # Required if "mysql user" exists. The password for the "mysql user"
+    -
+      name: Docker Test
+      run: docker --version
 
     - name: git_clone # 이 단계의 이름
       # Gtihub Actions에서 제공하는 actions/checkout 플러그인을 사용하여, 레퍼지토리의 코드를 체크아웃합니다
