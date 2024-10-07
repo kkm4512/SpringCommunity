@@ -29,7 +29,6 @@ jobs: # 여러개의 작업을 정의
           mysql password: ${{secrets.MYSQL_PASSWORD}}
           mysql root password: ${{secrets.MYSQL_PASSWORD}}
           mysql user: ${{secrets.MYSQL_USER}}
-          container port: 3306
       - name: git_clone # 이 단계의 이름
         # Gtihub Actions에서 제공하는 actions/checkout 플러그인을 사용하여, 레퍼지토리의 코드를 체크아웃합니다
         # @v4는 버젼입니다
