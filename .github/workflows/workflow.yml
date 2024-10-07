@@ -6,7 +6,7 @@ on: # 워크 필로우가 언제 실행될지 정의
   # github pull request 생성시
   pull_request: # 내가 지정한 브랜치가 pr됐을때 실행
     branches: [main, feature/*] # main, feature/* 패턴에 해당하는 모든 브랜치
-
+//
 jobs: # 여러개의 작업을 정의
   ci: # 한 작업(job)의 이름
     runs-on: [ ubuntu-latest ] # 이 작업이 실행될 환경 지정, ubuntu 최신환경으로 하겠습니다
