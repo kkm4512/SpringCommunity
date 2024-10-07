@@ -44,7 +44,5 @@ jobs: # 여러개의 작업을 정의
           java-version: '17' # 17 버젼
       - name: run unittest # 이 단계의 이름
         run: | # 커스텀 스크립트를 실행하는 명령어, 여러줄로 구성된 명령을 |를 사용하여 작성 가능
-          echo "$DWDQDSA"
-          echo "$SERVER_PORT"
           chmod +x ./gradlew 
           ./gradlew clean test
