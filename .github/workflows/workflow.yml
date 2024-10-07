@@ -26,10 +26,6 @@ jobs: # 여러개의 작업을 정의
         run: docker pull mysql:latest
       - name: Docker container 생성
         run: docker run --name=mysql_container -e MYSQL_ROOT_PASSWORD=!@Skdud340 -d -p 3306:3306 mysql
-      - name: Mysql_Start # 이 단계의 이름
-        run: docker pull mysql:latest
-      - name: Docker container 생성
-        run: docker run --name=mysql_container -e MYSQL_ROOT_PASSWORD=!@Skdud340 -d -p 3306:3306 mysql
       - name: MySQL 서버 대기
         run: |
           echo "Waiting for MySQL to start..."
