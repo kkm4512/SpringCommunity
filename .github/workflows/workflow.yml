@@ -21,9 +21,13 @@ jobs: # 여러개의 작업을 정의
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+      # MySQL 서버 실행
+      - name: Start MySQL service
+        run: sudo service mysql start
       - name: MYSQL CHECK
         run: mysql --version
-    
+      - name: MYSQL LOGIN
+        run: mysql -u root -p'!@Skdud340' -e "CREATE DATABASE springcommunity'
 
       - name: git_clone # 이 단계의 이름
         # Gtihub Actions에서 제공하는 actions/checkout 플러그인을 사용하여, 레퍼지토리의 코드를 체크아웃합니다
