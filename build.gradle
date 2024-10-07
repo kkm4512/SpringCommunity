@@ -54,14 +54,6 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.16.1'
 }
 
-tasks.test {
-    testLogging {
-        showExceptions = true
-        exceptionFormat "full"
-        showStackTraces true
-    }
-}
-
 tasks.named('test') {
     useJUnitPlatform()
 }
