@@ -45,4 +45,9 @@ jobs: # 여러개의 작업을 정의
       - name: run unittest # 이 단계의 이름
         run: | # 커스텀 스크립트를 실행하는 명령어, 여러줄로 구성된 명령을 |를 사용하여 작성 가능 
           chmod +x ./gradlew 
+          echo "SERVER_PORT=${{secrets.SERVER_PORT}}"
+          echo "MYSQL_HOST=${{secrets.MYSQL_HOST}}"
+          echo "MYSQL_PORT=${{secrets.MYSQL_PORT}}"
+          echo "REDIS_PORT=${{secrets.REDIS_PORT}}"
+          echo "REDIS_HOST=${{secrets.REDIS_HOST}}"
           ./gradlew clean test
