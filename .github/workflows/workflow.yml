@@ -31,14 +31,15 @@ jobs: # 여러개의 작업을 정의
           echo "${{ secrets.DATABASE_PROPERTIES }}" > ./application.yml
         shell: bash
 #
-      - name: Setup MySQL
-        run: |
-         sudo docker-compose --version 
-         sudo docker-compose up
-        
+      - name: docker-compose mysql SET
+        uses: hoverkraft-tech/compose-action@v0.0.0
+        with:
+          compose-file: '/docker-compose.yml'
+
 
       - name: folder check
         run: |
+          sudo docker-compose --version
           echo "/home/runner/work/SpringCommunity/SpringCommunity 폴더들"
           ls 
           cd ./src
