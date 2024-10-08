@@ -1,5 +1,5 @@
 name: 'WORKFLOW' #Github Actions 워크플로우의 이름 지정
-#
+
 on: # 워크 필로우가 언제 실행될지 정의
   pull_request: # 내가 지정한 브랜치가 pr됐을때 실행
     branches: [ main ] # main, feature/* 패턴에 해당하는 모든 브랜치
@@ -46,22 +46,23 @@ jobs: # 여러개의 작업을 정의
           docker login -u ${{secrets.DOCKER_HUB_ID}} -p ${{secrets.DOCKER_HUB_TOKEN}}
           docker build --build-arg DEPENDENCY=build/dependency -t ${{secrets.DOCKER_HUB_ID}}/${{secrets.DOCKER_HUB_REPO}} --platform linux/amd64 .
           docker push ${{secrets.DOCKER_HUB_ID}}/${{secrets.DOCKER_HUB_REPO}}
+      - name: Copy local to ec2
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{secrets.AWS_HOST}}
+          key: ${{secrets.AWS_KEY}}
+          username: ubuntu
+          source: ~/docker-compose.yml
+          target: ./docker-compose.yml
+
       - name: executing remote ssh
         uses: appleboy/ssh-action@master
         with:
           host: ${{secrets.AWS_HOST}}
           key: ${{secrets.AWS_KEY}}
           username: ubuntu
-          # 첫번째 명령어 = 현재 컨테이너 전부 삭제
-          # 두번째 명령어 = 우리가 hub에 올린 도커 이미지 받아옴
-          # 세번째 명령어 = 루트 디렉토리로 바꿈
-          # 네번째 명령어 = 최신 이미지로 도커 실행
-          # 다섯번째 명령어 = 모든 이미지 삭제
           script: |
-            sudo systemctl restart docker
-            sudo docker pull ${{secrets.DOCKER_HUB_ID}}/${{secrets.DOCKER_HUB_REPO}}
-            cd ~
-            sudo docker-compose up -d
+            sudo docker-compose up
             
 
           
