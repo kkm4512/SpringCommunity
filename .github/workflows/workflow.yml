@@ -32,11 +32,7 @@ jobs: # 여러개의 작업을 정의
         shell: bash
 #
       - name: Setup MySQL
-        uses: mirromutth/mysql-action@v1.1
-        with:
-          mysql database: 'springcommunity'
-          mysql user: 'root'
-          mysql password: ${{ secrets.MYSQL_PASSWORD }}
+        run: docker-compose up
 
       - name: folder check
         run: |
