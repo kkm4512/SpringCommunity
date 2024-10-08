@@ -32,7 +32,7 @@ jobs: # 여러개의 작업을 정의
         shell: bash
 #
       - name: docker-compose mysql SET
-        uses: hoverkraft-tech/compose-action@v0.0.0
+        uses: hoverkraft-tech/compose-action@v2.0.2
         with:
           compose-file: '/docker-compose.yml'
 
