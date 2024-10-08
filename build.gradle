@@ -52,6 +52,7 @@ dependencies {
     // serialize에 localdatetime인식 못하여 추가
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.16.1'
+    implementation 'mysql:mysql-connector-java'
 }
 
 tasks.named('test') {
