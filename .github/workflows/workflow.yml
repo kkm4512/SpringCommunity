@@ -2,10 +2,10 @@ name: 'WORKFLOW' #Github Actions 워크플로우의 이름 지정
 
 on: # 워크 필로우가 언제 실행될지 정의
   push: # 내가 지정한 브랜치로 코드가 푸쉬쇨때 워크플로우 실행
-    branches: [ main, feature/*, all ] #main, feature/* 패턴에 해당하는 모든 브랜치
+    branches: [ main ] #main, feature/* 패턴에 해당하는 모든 브랜치
   # github pull request 생성시
   pull_request: # 내가 지정한 브랜치가 pr됐을때 실행
-    branches: [main, feature/*, all] # main, feature/* 패턴에 해당하는 모든 브랜치
+    branches: [ main ] # main, feature/* 패턴에 해당하는 모든 브랜치
 
 jobs: # 여러개의 작업을 정의
   cicd: # 한 작업(job)의 이름
