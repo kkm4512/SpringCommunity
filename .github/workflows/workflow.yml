@@ -57,6 +57,7 @@ jobs: # 여러개의 작업을 정의
           username: ubuntu
           # 첫번째 명령어 = 현재 컨테이너 전부 삭제
           script: |
+            sudo docker stop $(sudo docker ps -q)
             sudo docker rm $(sudo docker ps -a)
             sudo docker pull ${{secrets.DOCKER_HUB_ID}}/${{secrets.DOCKER_HUB_REPO}}
             cd ~
