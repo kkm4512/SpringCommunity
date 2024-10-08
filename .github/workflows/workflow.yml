@@ -11,7 +11,7 @@ jobs: # 여러개의 작업을 정의
   cicd: # 한 작업(job)의 이름
     runs-on: [ ubuntu-latest ] # 이 작업이 실행될 환경 지정, ubuntu 최신환경으로 하겠습니다
     steps: # ci라는 작업에 대한 실행될 행동들 정의
-      - name: git_clone # 이 단계의 이름
+      - name: checkout # 이 단계의 이름
         # Gtihub Actions에서 제공하는 actions/checkout 플러그인을 사용하여, 레퍼지토리의 코드를 체크아웃합니다
         # @v4는 버젼입니다
         # 즉 githubd에 있는 나의 프로젝트 코드들을, github Actions 가상머신에 복사하는 과정!
@@ -60,7 +60,7 @@ jobs: # 여러개의 작업을 정의
             sudo docker rm $(sudo docker ps -a)
             sudo docker pull ${{secrets.DOCKER_HUB_ID}}/${{secrets.DOCKER_HUB_REPO}}
             cd ~
-            docker run -d -p 8080:8080 ${{secrets.DOCKER_HUB_ID}}/${{secrets.DOCKER_HUB_REPO}}
+            sudo docker run -d -p 8080:8080 ${{secrets.DOCKER_HUB_ID}}/${{secrets.DOCKER_HUB_REPO}}
             sudo docker image prune -f
           
             

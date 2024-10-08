@@ -21,9 +21,7 @@ COPY --from=builder /build/build/libs/*-SNAPSHOT.jar ./app.jar
 
 EXPOSE 8080
 
-# root 대신 nobody 권한으로 실행
 # Djava,Dsun 은 성능최적화를 위한 JVM 옵션
-USER nobody
 ENTRYPOINT [                                                \
     "java",                                                 \
     "-jar",                                                 \
