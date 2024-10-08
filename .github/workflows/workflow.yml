@@ -25,13 +25,7 @@ jobs: # 여러개의 작업을 정의
           distribution: 'adopt' # AdoptOpenJDK 배포판 사용
           java-version: '17' # 17 버젼
       # application.properties 파일 생성
-      - name: Make application.yml
-        # resources 디렉토리로 위치를 옮긴다
-        # 깃헙 sercrets 설정으로 저장되있는 나의 yml 파일들을 새로만든다
-        run: |
-          cd ./src/main/resources 
-          echo "${{ secrets.DATABASE_PROPERTIES }}" > ./application.yml
-        shell: bash
+
 
       # docker-compose up github actions로 실행하기
       - name: docker-compose mysql SET
