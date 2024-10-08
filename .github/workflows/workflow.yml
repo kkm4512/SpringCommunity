@@ -57,8 +57,8 @@ jobs: # 여러개의 작업을 정의
           host: ${{secrets.AWS_HOST}}
           key: ${{secrets.AWS_KEY}}
           username: ubuntu
-          source: ~/docker-compose.yml
-          target: ./docker-compose.yml
+          source: ./docker-compose.yml
+          target: ~/docker-compose.yml
 
       - name: executing remote ssh
         uses: appleboy/ssh-action@master
