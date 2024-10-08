@@ -43,4 +43,5 @@ jobs: # 여러개의 작업을 정의
           chmod +x ./gradlew
           cd ./src/main/resources
           sudo ls -a
+          cd ~
           ./gradlew clean test
