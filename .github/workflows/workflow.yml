@@ -33,12 +33,12 @@ jobs: # 여러개의 작업을 정의
           echo "${{ secrets.DATABASE_PROPERTIES }}" > ./application.yml
         shell: bash
 
-      # docker-compose up github actions로 실행하기
-      - name: docker-compose mysql SET
-        uses: hoverkraft-tech/compose-action@v2.0.2
-        # 루트 디렉토리의 docker-compose.yml 파일을 실행해라
+      - name: mysql start
+        uses: mirromutth/mysql-action@v1.1
         with:
-          compose-file: './docker-compose.yml'
+          mysql database: springcommunity
+          mysql root password: '!@Skdud340'
+
 
       - name: run unittest # 이 단계의 이름
         run: | # 커스텀 스크립트를 실행하는 명령어, 여러줄로 구성된 명령을 |를 사용하여 작성 가능 
