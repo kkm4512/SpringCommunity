@@ -29,19 +29,23 @@ jobs: # 여러개의 작업을 정의
           cd ./src/main/resources 
           echo "${{ secrets.DATABASE_PROPERTIES }}" > ./application.yml
         shell: bash
-
+      # github VM에서 CI에서 성공되기 위한 mysql 설정
       - name: mysql start
         uses: mirromutth/mysql-action@v1.1
         with:
           mysql database: springcommunity
           mysql root password: ${{secrets.MYSQL_PASSWORD}}
 
+      # 빌드 돌리며, jar 파일 만들고 테스트 코드 돌림
       - name: Build with Gradle
         run: | # 커스텀 스크립트를 실행하는 명령어, 여러줄로 구성된 명령을 |를 사용하여 작성 가능 
           chmod +x ./gradlew
           ./gradlew build
         # 이미지 빋르후 도커허브에 넣기
       - name: web docker build and push
+        # 로그인하고
+        # 현재 jar 파일을 기준으로 도커 이미지 만들고
+        # 도커 허브에 올린다
         run: |
           docker login -u ${{secrets.DOCKER_HUB_ID}} -p ${{secrets.DOCKER_HUB_TOKEN}}
           docker build --build-arg DEPENDENCY=build/dependency -t ${{secrets.DOCKER_HUB_ID}}/${{secrets.DOCKER_HUB_REPO}} --platform linux/amd64 .
