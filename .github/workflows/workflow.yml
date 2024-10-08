@@ -22,15 +22,6 @@ jobs: # 여러개의 작업을 정의
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      # application.properties 파일 생성
-      - name: Make application.properties
-        run: |
-          cd ./src/main/resources
-          touch ./application.yml       
-          echo "${{ secrets.DATABASE_PROPERTIES }}" >> ./application.yml
-          echo "application.yml"
-        shell: bash
-
 
       - name: git_clone # 이 단계의 이름
         # Gtihub Actions에서 제공하는 actions/checkout 플러그인을 사용하여, 레퍼지토리의 코드를 체크아웃합니다
@@ -45,6 +36,16 @@ jobs: # 여러개의 작업을 정의
         with: # 플러그인 설정
           distribution: 'adopt' # AdoptOpenJDK 배포판 사용
           java-version: '17' # 17 버젼
+
+      # application.properties 파일 생성
+      - name: Make application.properties
+        run: |
+          cd ./src/main/resources
+          touch ./application.yml       
+          echo "${{ secrets.DATABASE_PROPERTIES }}" >> ./application.yml
+          echo "application.yml"
+        shell: bash
+
       - name: run unittest # 이 단계의 이름
         run: | # 커스텀 스크립트를 실행하는 명령어, 여러줄로 구성된 명령을 |를 사용하여 작성 가능
           chmod +x ./gradlew 
