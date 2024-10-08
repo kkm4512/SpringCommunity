@@ -32,7 +32,10 @@ jobs: # 여러개의 작업을 정의
         shell: bash
 #
       - name: Setup MySQL
-        run: docker-compose up
+        run: |
+         docker-compose --version 
+         docker-compose up
+        
 
       - name: folder check
         run: |
