@@ -9,6 +9,8 @@ on: # 워크 필로우가 언제 실행될지 정의
 
 jobs: # 여러개의 작업을 정의
   ci: # 한 작업(job)의 이름
+    env:
+      SERVER_PORT: ${{secrets.SERVER_PORT}}
     runs-on: [ ubuntu-latest ] # 이 작업이 실행될 환경 지정, ubuntu 최신환경으로 하겠습니다
     steps: # ci라는 작업에 대한 실행될 행동들 정의
       - name: git_clone # 이 단계의 이름
@@ -35,4 +37,4 @@ jobs: # 여러개의 작업을 정의
       - name: run unittest # 이 단계의 이름
         run: | # 커스텀 스크립트를 실행하는 명령어, 여러줄로 구성된 명령을 |를 사용하여 작성 가능 
           chmod +x ./gradlew 
-          ./gradlew clean
+          ./gradlew clean test
