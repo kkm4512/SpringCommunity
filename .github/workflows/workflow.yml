@@ -47,6 +47,7 @@ jobs: # 여러개의 작업을 정의
       - name: Setup MySQL
         uses: samin/mysql-action@v1
         with:
+
           mysql database: 'springcommunity'
           mysql user: 'test'
           mysql password: ${{ secrets.MYSQL_PASSWORD }}
@@ -56,4 +57,4 @@ jobs: # 여러개의 작업을 정의
       - name: run unittest # 이 단계의 이름
         run: | # 커스텀 스크립트를 실행하는 명령어, 여러줄로 구성된 명령을 |를 사용하여 작성 가능
           chmod +x ./gradlew 
-          ./gradlew clean test --stacktrace --info
+          ./gradlew clean test
