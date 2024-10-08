@@ -24,12 +24,6 @@ jobs: # 여러개의 작업을 정의
         with: # 플러그인 설정
           distribution: 'adopt' # AdoptOpenJDK 배포판 사용
           java-version: '17' # 17 버젼
-      # application.properties 파일 생성
-      - name: Make application.properties
-        run: |
-          cd ./src/main/resources
-          echo "${{ secrets.DATABASE_PROPERTIES }}" > ./application.yml
-        shell: bash
 
       - name: Setup MySQL
         uses: mirromutth/mysql-action@v1.1
