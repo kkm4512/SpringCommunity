@@ -45,6 +45,6 @@ jobs: # 여러개의 작업을 정의
           cd ./src/main/resources
           pwd
           sudo ls -a
-          cd ~
+          cd ~/work/SpringCommunity/SpringCommunity
           pwd
           ./gradlew clean test
