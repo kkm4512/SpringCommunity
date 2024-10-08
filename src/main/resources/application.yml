@@ -2,8 +2,6 @@ server:
   port: 8080
 # DB config
 spring:
-  config:
-    import: optional:file:.env[.properties]
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/springcommunity?serverTimezone=Asia/Seoul
