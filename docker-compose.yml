@@ -7,13 +7,16 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: '!@Skdud340'
       MYSQL_DATABASE: springcommunity
+    # 추가된 부분
+    restart: always
 
   redis:
     container_name: redis_container
     image: redis
     ports:
       - 6379:6379
-
+    # 추가된 부분
+    restart: always
 
   backend:
     container_name: springcommunity_container
@@ -25,4 +28,5 @@ services:
     depends_on:
       - mysql
       - redis
+    # 추가된 부분
     restart: always
