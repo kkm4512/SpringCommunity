@@ -37,12 +37,11 @@ jobs: # 여러개의 작업을 정의
         uses: mirromutth/mysql-action@v1.1
         with:
           mysql database: springcommunity
-          mysql root password: '!@Skdud340'
+          mysql root password: ${{secrets.MYSQL_PASSWORD}}
 
       - name: Build with Gradle
         run: | # 커스텀 스크립트를 실행하는 명령어, 여러줄로 구성된 명령을 |를 사용하여 작성 가능 
           chmod +x ./gradlew
-          ./gradlew clean test
           ./gradlew build
         # 이미지 빋르후 도커허브에 넣기
       - name: web docker build and push
