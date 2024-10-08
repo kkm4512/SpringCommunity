@@ -24,13 +24,7 @@ jobs: # 여러개의 작업을 정의
         with: # 플러그인 설정
           distribution: 'adopt' # AdoptOpenJDK 배포판 사용
           java-version: '17' # 17 버젼
-      - name: Mysql_Start # 이 단계의 이름
-        uses: mirromutth/mysql-action@v1.1 # github actions에서 이 버젼의 mysql 쓸께요
-        with:
-          mysql database: ${{secrets.MYSQL_DB_NAME}}
-          mysql password: ${{secrets.MYSQL_PASSWORD}}
-          mysql root password: ${{secrets.MYSQL_PASSWORD}}
-          mysql user: 'dafawefwf'
+
 
       - name: run unittest # 이 단계의 이름
         run: | # 커스텀 스크립트를 실행하는 명령어, 여러줄로 구성된 명령을 |를 사용하여 작성 가능 
