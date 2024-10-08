@@ -9,8 +9,6 @@ on: # 워크 필로우가 언제 실행될지 정의
 
 jobs: # 여러개의 작업을 정의
   ci: # 한 작업(job)의 이름
-    env:
-      SERVER_PORT: ${{secrets.SERVER_PORT}}
     runs-on: [ ubuntu-latest ] # 이 작업이 실행될 환경 지정, ubuntu 최신환경으로 하겠습니다
     steps: # ci라는 작업에 대한 실행될 행동들 정의
       - name: git_clone # 이 단계의 이름
@@ -26,6 +24,12 @@ jobs: # 여러개의 작업을 정의
         with: # 플러그인 설정
           distribution: 'adopt' # AdoptOpenJDK 배포판 사용
           java-version: '17' # 17 버젼
+      # application.properties 파일 생성
+      - name: Make application.properties
+        run: |
+          cd ./src/main/resources
+          echo "${{ secrets.DATABASE_PROPERTIES }}" > ./application.yml
+        shell: bash
 
       - name: Setup MySQL
         uses: mirromutth/mysql-action@v1.1
