@@ -55,7 +55,6 @@ jobs: # 여러개의 작업을 정의
           username: ubuntu
           source: ./docker-compose.yml
           target: ~/docker-compose.yml
-      # TODO: 여기 해야함!
       - name: executing remote ssh
         uses: appleboy/ssh-action@master
         with:
@@ -66,7 +65,7 @@ jobs: # 여러개의 작업을 정의
             sudo systemctl restart docker
             docker login -u ${{secrets.DOCKER_HUB_ID}} -p ${{secrets.DOCKER_HUB_TOKEN}}
             cd ~/docker-compose.yml
-            sudo docker-compose up
+            sudo docker-compose up -d
             
 
           
