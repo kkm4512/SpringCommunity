@@ -30,12 +30,6 @@ jobs: # 여러개의 작업을 정의
           cd ./src/main/resources
           echo "${{ secrets.DATABASE_PROPERTIES }}" > ./application.yml
         shell: bash
-#
-      - name: docker-compose mysql SET
-        uses: hoverkraft-tech/compose-action@v2.0.2
-        with:
-          compose-file: '/docker-compose.yml'
-
 
       - name: folder check
         run: |
@@ -51,6 +45,14 @@ jobs: # 여러개의 작업을 정의
           cd ./resources
           echo "/home/runner/work/SpringCommunity/SpringCommunity/src/main/resources 폴더들"
           ls
+
+      - name: docker-compose mysql SET
+        uses: hoverkraft-tech/compose-action@v2.0.2
+        with:
+          compose-file: '/docker-compose.yml'
+
+
+
 
       - name: run unittest # 이 단계의 이름
         run: | # 커스텀 스크립트를 실행하는 명령어, 여러줄로 구성된 명령을 |를 사용하여 작성 가능 
