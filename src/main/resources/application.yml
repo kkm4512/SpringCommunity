@@ -7,7 +7,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DB_NAME}?serverTimezone=Asia/Seoul
-    username: ${MYSQL_NAME}
+    username: ${MYSQL_USER}
     password: ${MYSQL_PASSWORD}
   # DB update
   jpa:
