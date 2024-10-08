@@ -4,7 +4,7 @@ services:
     container_name: mysql
     environment:
       MYSQL_DATABASE: springcommunity
-      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+      MYSQL_ROOT_PASSWORD: '!@Skdud340'
     ports:
       - "3306:3306"
     networks:

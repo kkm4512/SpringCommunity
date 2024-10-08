@@ -45,6 +45,9 @@ jobs: # 여러개의 작업을 정의
           echo "/home/runner/work/SpringCommunity/SpringCommunity/src/main/resources 폴더들"
           ls
           cd /home/runner/work/SpringCommunity/SpringCommunity
+          echo "/home/runner/work/SpringCommunity/SpringCommunity 폴더들"
+          pwd
+          ls
 
       - name: docker-compose mysql SET
         uses: hoverkraft-tech/compose-action@v2.0.2
