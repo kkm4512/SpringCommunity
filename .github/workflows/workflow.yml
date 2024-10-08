@@ -30,7 +30,7 @@ jobs: # 여러개의 작업을 정의
           cd ./src/main/resources
           echo "${{ secrets.DATABASE_PROPERTIES }}" > ./application.yml
         shell: bash
-
+#
       - name: Setup MySQL
         uses: mirromutth/mysql-action@v1.1
         with:
@@ -40,6 +40,7 @@ jobs: # 여러개의 작업을 정의
 
       - name: run unittest # 이 단계의 이름
         run: | # 커스텀 스크립트를 실행하는 명령어, 여러줄로 구성된 명령을 |를 사용하여 작성 가능 
-          chmod +x ./gradlew 
+          chmod +x ./gradlew
+          cd ./src/main/resources
           sudo ls -a
           ./gradlew clean test
