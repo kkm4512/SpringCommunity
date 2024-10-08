@@ -40,11 +40,18 @@ jobs: # 여러개의 작업을 정의
 
       - name: folder check
         run: |
+          echo "/home/runner/work/SpringCommunity/SpringCommunity 폴더들"
           ls 
-          pwd
-          cd ../
+          cd ./src
+          echo "/home/runner/work/SpringCommunity/SpringCommunity/src 폴더들"
           ls
-          pwd
+          cd ./main
+          echo "/home/runner/work/SpringCommunity/SpringCommunity/src/main 폴더들"
+          ls
+          cd ./resources
+          echo "/home/runner/work/SpringCommunity/SpringCommunity/src/main/resources 폴더들"
+          ls
+
       - name: run unittest # 이 단계의 이름
         run: | # 커스텀 스크립트를 실행하는 명령어, 여러줄로 구성된 명령을 |를 사용하여 작성 가능 
           chmod +x ./gradlew
