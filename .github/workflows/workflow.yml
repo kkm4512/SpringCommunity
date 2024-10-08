@@ -46,10 +46,6 @@ jobs: # 여러개의 작업을 정의
           docker login -u ${{secrets.DOCKER_HUB_ID}} -p ${{secrets.DOCKER_HUB_TOKEN}}
           docker build --build-arg DEPENDENCY=build/dependency -t ${{secrets.DOCKER_HUB_ID}}/${{secrets.DOCKER_HUB_REPO}} --platform linux/amd64 .
           docker push ${{secrets.DOCKER_HUB_ID}}/${{secrets.DOCKER_HUB_REPO}}
-      - name: Folder Check
-        run: |
-          echo " ~ "
-          ls
       # github actions 가상머신에 있는 docker-compose.yml 파일을 내가 지정한 ec2로 옮김
       - name: Copy githubVM to ec2
         uses: appleboy/scp-action@v0.1.4
@@ -67,6 +63,7 @@ jobs: # 여러개의 작업을 정의
           key: ${{secrets.AWS_KEY}}
           username: ubuntu
           script: |
+            cd ~/docker-compose.yml
             sudo docker-compose up
             
 
