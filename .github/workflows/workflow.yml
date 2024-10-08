@@ -41,7 +41,7 @@ jobs: # 여러개의 작업을 정의
       - name: Make env
         run: |        
           cd ~
-          echo "${{ secrets.GITHUB_ENV }}" > .env
+          echo "${{ secrets.ENV }}" > .env
         shell: bash
 
       - name: Setup MySQL
