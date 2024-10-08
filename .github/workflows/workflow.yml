@@ -46,6 +46,13 @@ jobs: # 여러개의 작업을 정의
           echo "application.yml"
         shell: bash
 
+      - name: Setup MySQL
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql database: 'springcommunity'
+          mysql user: 'nayoun340'
+          mysql password: ${{ secrets.MYSQL_PASSWORD }}
+
       - name: run unittest # 이 단계의 이름
         run: | # 커스텀 스크립트를 실행하는 명령어, 여러줄로 구성된 명령을 |를 사용하여 작성 가능
           chmod +x ./gradlew 
