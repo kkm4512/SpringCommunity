@@ -28,7 +28,7 @@ jobs: # 여러개의 작업을 정의
       - name: Make application.properties
         run: |
           cd ./src/main/resources
-          echo "${{ secrets.DATABASE_PROPERTIES }}" > ./application.yml
+          echo "${{ secrets.DATABASE_PROPERTIES }}" > ./application.properties
         shell: bash
 
       - name: folder check
@@ -53,6 +53,7 @@ jobs: # 여러개의 작업을 정의
         uses: hoverkraft-tech/compose-action@v2.0.2
         with:
           compose-file: './docker-compose.yml'
+
 
       - name: run unittest # 이 단계의 이름
         run: | # 커스텀 스크립트를 실행하는 명령어, 여러줄로 구성된 명령을 |를 사용하여 작성 가능 
