@@ -63,6 +63,7 @@ jobs: # 여러개의 작업을 정의
           key: ${{secrets.AWS_KEY}}
           username: ubuntu
           script: |
+            sudo systemctl restart docker
             cd ~/docker-compose.yml
             sudo docker-compose up
             
