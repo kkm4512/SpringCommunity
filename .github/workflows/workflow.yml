@@ -1,5 +1,5 @@
 name: 'WORKFLOW' #Github Actions 워크플로우의 이름 지정
-#
+
 on: # 워크 필로우가 언제 실행될지 정의
   pull_request: # 내가 지정한 브랜치가 pr됐을때 실행
     branches: [ main ] # main, feature/* 패턴에 해당하는 모든 브랜치
