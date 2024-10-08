@@ -1,4 +1,4 @@
-name: 'SpringCommunity_CI' #Github Actions 워크플로우의 이름 지정
+name: 'CI_CD' #Github Actions 워크플로우의 이름 지정
 
 on: # 워크 필로우가 언제 실행될지 정의
   push: # 내가 지정한 브랜치로 코드가 푸쉬쇨때 워크플로우 실행
@@ -8,7 +8,7 @@ on: # 워크 필로우가 언제 실행될지 정의
     branches: [main, feature/*] # main, feature/* 패턴에 해당하는 모든 브랜치
 
 jobs: # 여러개의 작업을 정의
-  ci: # 한 작업(job)의 이름
+  ci_cd: # 한 작업(job)의 이름
     runs-on: [ ubuntu-latest ] # 이 작업이 실행될 환경 지정, ubuntu 최신환경으로 하겠습니다
     steps: # ci라는 작업에 대한 실행될 행동들 정의
       - name: git_clone # 이 단계의 이름
@@ -42,5 +42,6 @@ jobs: # 여러개의 작업을 정의
 
       - name: run unittest # 이 단계의 이름
         run: | # 커스텀 스크립트를 실행하는 명령어, 여러줄로 구성된 명령을 |를 사용하여 작성 가능 
+          pwd
           chmod +x ./gradlew
           ./gradlew clean test
