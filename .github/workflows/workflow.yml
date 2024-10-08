@@ -38,12 +38,10 @@ jobs: # 여러개의 작업을 정의
           java-version: '17' # 17 버젼
 
       # application.properties 파일 생성
-      - name: Make application.properties
-        run: |
-          cd ./src/main/resources
-          touch ./application.yml       
-          echo "${{ secrets.DATABASE_PROPERTIES }}" >> ./application.yml
-          echo "application.yml"
+      - name: Make env
+        run: |        
+          cd ~
+          echo "${{ secrets.GITHUB_ENV }}" > .env
         shell: bash
 
       - name: Setup MySQL
