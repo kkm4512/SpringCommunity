@@ -87,6 +87,7 @@ public class SecurityConfig {
                 authReq
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/api/auths/**").permitAll() // /api/user 로시작하는 요청 모두 접근 허용 (인증 x)
+                        .requestMatchers("/api/test/**").permitAll()
                         .anyRequest().authenticated() // 그 외 모든 요청 인증 처리
         );
 
