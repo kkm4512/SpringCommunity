@@ -33,8 +33,8 @@ jobs: # 여러개의 작업을 정의
       - name: mysql start
         uses: mirromutth/mysql-action@v1.1
         with:
-          mysql database: springcommunity
-          mysql root password: ${{secrets.MYSQL_PASSWORD}}
+          mysql database: root
+          mysql root password: root
 
       # 빌드 돌리며, jar 파일 만들고 테스트 코드 돌림
       - name: Build with Gradle
