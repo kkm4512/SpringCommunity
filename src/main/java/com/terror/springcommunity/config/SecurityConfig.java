@@ -6,6 +6,8 @@ import com.terror.springcommunity.security.HandlerFilterException;
 import com.terror.springcommunity.security.JwtAuthenticationFilter;
 import com.terror.springcommunity.security.JwtAuthorizationFilter;
 import com.terror.springcommunity.security.UserDetailsServiceImpl;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -64,7 +66,14 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthorizationFilter jwtAuthorizationFilter() {
-        return new JwtAuthorizationFilter(jm,userDetailsService);
+        return new JwtAuthorizationFilter(jm,userDetailsService) {
+            @Override
+            protected boolean shouldNotFilter(HttpServletRequest req) throws ServletException {
+                String path = req.getRequestURI();
+                // "/auth"로 시작되는 경로에 대해서는 필터가 진행되지 않음
+                return path.startsWith("/api/test");
+            };
+        };
     }
 
     @Bean
