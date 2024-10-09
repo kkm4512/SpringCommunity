@@ -37,10 +37,10 @@ jobs: # 여러개의 작업을 정의
           mysql root password: ${{secrets.MYSQL_PASSWORD}}
 
       # 빌드 돌리며, jar 파일 만들고 테스트 코드 돌림
-      - name: Build with Gradle
+      - name: Build with Gradle (Only Test)
         run: | # 커스텀 스크립트를 실행하는 명령어, 여러줄로 구성된 명령을 |를 사용하여 작성 가능 
           chmod +x ./gradlew
-          ./gradlew build
+          ./gradlew test
       - name: Make AWS application.yml
         run: |
           cd ./src/main/resources 
@@ -51,7 +51,7 @@ jobs: # 여러개의 작업을 정의
         run: | # 커스텀 스크립트를 실행하는 명령어, 여러줄로 구성된 명령을 |를 사용하여 작성 가능 
           chmod +x ./gradlew
           ./gradlew clean
-          ./gradlew build -x test
+          ./gradlew build
         # 이미지 빋르후 도커허브에 넣기
       - name: web docker build and push
         # 로그인하고
