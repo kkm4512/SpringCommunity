@@ -36,19 +36,21 @@ jobs: # 여러개의 작업을 정의
           mysql database: springcommunity
           mysql root password: ${{secrets.MYSQL_PASSWORD}}
 
-      - name: Make AWS application.yml
-        # resources 디렉토리로 위치를 옮긴다
-        # 깃헙 sercrets 설정으로 저장되있는 나의 yml 파일들을 새로만든다
-        run: |
-          cd ./src/main/resources 
-          echo "${{ secrets.AWS_DATABASE_PROPERTIES }}" > ./application.yml
-        shell: bash
-
       # 빌드 돌리며, jar 파일 만들고 테스트 코드 돌림
       - name: Build with Gradle
         run: | # 커스텀 스크립트를 실행하는 명령어, 여러줄로 구성된 명령을 |를 사용하여 작성 가능 
           chmod +x ./gradlew
           ./gradlew build
+      - name: Make AWS application.yml
+        run: |
+          cd ./src/main/resources 
+          echo "${{ secrets.AWS_DATABASE_PROPERTIES }}" > ./application.yml
+        shell: bash
+      # AWS 빌드 돌리며, jar 파일 만들고 테스트 코드 돌림
+      - name: AWS Build with Gradle
+        run: | # 커스텀 스크립트를 실행하는 명령어, 여러줄로 구성된 명령을 |를 사용하여 작성 가능 
+          chmod +x ./gradlew
+          ./gradlew build -x test
         # 이미지 빋르후 도커허브에 넣기
       - name: web docker build and push
         # 로그인하고
