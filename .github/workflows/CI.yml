@@ -8,6 +8,14 @@ jobs:
   ci:
     runs-on: [ ubuntu-latest ]
     steps:
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       - name: checkout
         uses: actions/checkout@v4
 
