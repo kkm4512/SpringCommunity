@@ -1,0 +1,37 @@
+name: 'CI' #Github Actions 워크플로우의 이름 지정
+
+on: # 워크 필로우가 언제 실행될지 정의
+  pull_request: # 내가 지정한 브랜치가 pr됐을때 실행
+    branches: [ main ] # main, feature/* 패턴에 해당하는 모든 브랜치
+
+jobs:
+  ci:
+    runs-on: [ ubuntu-latest ]
+    steps:
+      - name: checkout #
+        uses: actions/checkout@v4
+
+      - name: java_setup # 이 단계의 이름
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+      - name: Make local application.yml
+        run: |
+          cd ./src/main/resources
+          echo "${{ secrets.DATABASE_PROPERTIES }}" > ./application.yml
+        shell: bash
+      - name: mysql start
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql database: springcommunity
+          mysql root password: ${{secrets.MYSQL_PASSWORD}}
+
+      - name: Build with Gradle (Only Test)
+        run: | 
+          chmod +x ./gradlew
+          ./gradlew test
+
+
+
+
