@@ -8,22 +8,6 @@ jobs:
   ci:
     runs-on: [ ubuntu-latest ]
     steps:
-      - name: Cache Gradle packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: Archive test results
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: build/test-results/test
-
-
       - name: checkout
         uses: actions/checkout@v4
 
@@ -49,6 +33,13 @@ jobs:
         run: | 
           chmod +x ./gradlew
           ./gradlew test
+
+      - name: Archive test results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: build/test-results/test
 
 
 
