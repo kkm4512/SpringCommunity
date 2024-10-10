@@ -8,7 +8,6 @@ jobs:
   ci:
     runs-on: [ ubuntu-latest ]
     steps:
-
       - name: checkout
         uses: actions/checkout@v4
 
@@ -28,7 +27,7 @@ jobs:
         uses: mirromutth/mysql-action@v1.1
         with:
           mysql database: springcommunity
-          mysql root password: 1234
+          mysql root password: ${{secrets.MYSQL_PASSWORD}}
 
       - name: Build with Gradle (Only Test)
         run: | 
