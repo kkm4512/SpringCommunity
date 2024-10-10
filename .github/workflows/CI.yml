@@ -8,6 +8,7 @@ jobs:
   ci:
     runs-on: [ ubuntu-latest ]
     steps:
+      -
       - name: Cache Gradle packages
         uses: actions/cache@v3
         with:
@@ -15,6 +16,14 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+
+      - name: Archive test results
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: build/test-results/test
+
 
       - name: checkout
         uses: actions/checkout@v4
@@ -24,11 +33,13 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
+
       - name: Make local application.yml
         run: |
           cd ./src/main/resources
           echo "${{ secrets.DATABASE_PROPERTIES }}" > ./application.yml
         shell: bash
+
       - name: mysql start
         uses: mirromutth/mysql-action@v1.1
         with:
