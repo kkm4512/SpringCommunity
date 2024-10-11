@@ -1,0 +1,32 @@
+services:
+  mysql:
+    container_name: mysql
+    image: mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: '!@Skdud340'
+      MYSQL_DATABASE: springcommunity
+    # 추가된 부분
+    restart: always
+
+  redis:
+    container_name: redis
+    image: redis
+    ports:
+      - 6379:6379
+    # 추가된 부분
+    restart: always
+
+  backend:
+    container_name: backend
+    image: nayoun340/springcommunity
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysql
+      - redis
+    # 추가된 부분
+    restart: always

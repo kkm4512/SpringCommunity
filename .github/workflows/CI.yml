@@ -1,0 +1,46 @@
+name: 'CI'
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  ci:
+    runs-on: [ ubuntu-latest ]
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: java_setup
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+
+      - name: Make local application.yml
+        run: |
+          cd ./src/main/resources
+          echo "${{ secrets.DATABASE_PROPERTIES }}" > ./application.yml
+        shell: bash
+
+      - name: mysql start
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql database: springcommunity
+          mysql root password: ${{secrets.MYSQL_PASSWORD}}
+
+      - name: Build with Gradle (Only Test)
+        run: | 
+          chmod +x ./gradlew
+          ./gradlew test
+
+      - name: Archive test results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: build/test-results/test
+
+
+
+
