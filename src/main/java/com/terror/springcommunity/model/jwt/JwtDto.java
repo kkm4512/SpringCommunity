@@ -1,6 +1,6 @@
-package com.terror.springcommunity.model;
+package com.terror.springcommunity.model.jwt;
 
-import com.terror.springcommunity.constans.UserRoleEnum;
+import com.terror.springcommunity.constans.response.UserRoleEnum;
 import com.terror.springcommunity.entity.Member;
 import lombok.Getter;
 

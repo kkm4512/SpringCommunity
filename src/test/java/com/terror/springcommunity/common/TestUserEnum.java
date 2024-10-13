@@ -1,7 +1,7 @@
 package com.terror.springcommunity.common;
 
 
-import com.terror.springcommunity.constans.UserRoleEnum;
+import com.terror.springcommunity.constans.response.UserRoleEnum;
 
 public enum TestUserEnum {
     TEST_MEMBER_ONE("test1", "!@skdud340", "test1@naver.com", "test1작성자", UserRoleEnum.USER),

@@ -1,7 +1,7 @@
 package com.terror.springcommunity.service;
 
 import com.terror.springcommunity.common.TestUserEnum;
-import com.terror.springcommunity.constans.ApiResponseMemberEnum;
+import com.terror.springcommunity.constans.response.ApiResponseMemberEnum;
 import com.terror.springcommunity.entity.Member;
 import com.terror.springcommunity.exception.MemberException;
 import com.terror.springcommunity.mapper.PostMapper;
@@ -11,7 +11,6 @@ import com.terror.springcommunity.model.post.PostRequestDto;
 import com.terror.springcommunity.repository.MemberRepository;
 import com.terror.springcommunity.repository.PostRepository;
 import com.terror.springcommunity.service.member.MemberService;
-import com.terror.springcommunity.service.post.PostService;
 import com.terror.springcommunity.service.post.PostServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,14 +22,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.then;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class) // @Mock 사용을 위해 설정합니다.

@@ -1,7 +1,6 @@
 package com.terror.springcommunity.model.apiResponse.post;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.terror.springcommunity.constans.ApiResponsePostEnum;
+import com.terror.springcommunity.constans.response.ApiResponsePostEnum;
 import com.terror.springcommunity.model.post.PostResponseDto;
 import lombok.AccessLevel;
 import lombok.Getter;

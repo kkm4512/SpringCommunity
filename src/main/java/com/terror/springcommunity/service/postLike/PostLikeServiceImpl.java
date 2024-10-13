@@ -1,6 +1,6 @@
 package com.terror.springcommunity.service.postLike;
 
-import com.terror.springcommunity.constans.ApiResponsePostLikeEnum;
+import com.terror.springcommunity.constans.response.ApiResponsePostLikeEnum;
 import com.terror.springcommunity.entity.Member;
 import com.terror.springcommunity.entity.Post;
 import com.terror.springcommunity.entity.PostLike;

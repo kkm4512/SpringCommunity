@@ -1,9 +1,7 @@
 package com.terror.springcommunity.model.apiResponse.comment;
 
-import com.terror.springcommunity.constans.ApiResponseCommentEnum;
-import com.terror.springcommunity.constans.ApiResponseMemberEnum;
+import com.terror.springcommunity.constans.response.ApiResponseCommentEnum;
 import com.terror.springcommunity.model.comment.CommentResponseDto;
-import com.terror.springcommunity.model.member.MemberResponseDto;
 import lombok.Getter;
 
 import java.util.ArrayList;

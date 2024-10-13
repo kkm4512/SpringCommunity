@@ -1,25 +1,19 @@
 package com.terror.springcommunity.service.post;
 
-import com.terror.springcommunity.constans.ApiResponsePostEnum;
+import com.terror.springcommunity.constans.response.ApiResponsePostEnum;
 import com.terror.springcommunity.entity.Member;
 import com.terror.springcommunity.entity.Post;
 import com.terror.springcommunity.exception.PostException;
-import com.terror.springcommunity.mapper.PostMapper;
 import com.terror.springcommunity.model.apiResponse.post.ApiResponsePost;
 import com.terror.springcommunity.model.post.PostRequestDto;
 import com.terror.springcommunity.model.post.PostResponseDto;
-import com.terror.springcommunity.repository.MemberRepository;
 import com.terror.springcommunity.repository.PostRepository;
 import com.terror.springcommunity.service.member.MemberService;
-import com.terror.springcommunity.service.redis.RedisService;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

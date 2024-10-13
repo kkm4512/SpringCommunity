@@ -1,6 +1,5 @@
 package com.terror.springcommunity.security;
 
-import com.terror.springcommunity.jwt.JwtManager;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -23,12 +22,8 @@ import java.io.IOException;
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final JwtManager jm;
     @Override
-    protected void doFilterInternal(
-            HttpServletRequest httpRequest,
-            @NonNull HttpServletResponse httpResponse,
-            @NonNull FilterChain chain
-    ) throws ServletException, IOException {
-        String authorizationHeader = httpRequest.getHeader("Authorization");
+    protected void doFilterInternal(HttpServletRequest httpRequest, @NonNull HttpServletResponse httpResponse, @NonNull FilterChain chain) throws ServletException, IOException {
+        String authorizationHeader = jm.getAccessTokenFromHeader(httpRequest);
 
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String jwt = jm.substringJwt(authorizationHeader);

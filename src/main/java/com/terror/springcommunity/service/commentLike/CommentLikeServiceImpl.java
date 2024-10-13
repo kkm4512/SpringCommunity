@@ -1,7 +1,6 @@
 package com.terror.springcommunity.service.commentLike;
 
-import com.terror.springcommunity.constans.ApiResponseCommentLikeEnum;
-import com.terror.springcommunity.constans.ApiResponseMemberEnum;
+import com.terror.springcommunity.constans.response.ApiResponseCommentLikeEnum;
 import com.terror.springcommunity.entity.Comment;
 import com.terror.springcommunity.entity.CommentLike;
 import com.terror.springcommunity.entity.Member;

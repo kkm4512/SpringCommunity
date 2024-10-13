@@ -1,6 +1,6 @@
 package com.terror.springcommunity.exception;
 
-import com.terror.springcommunity.constans.ApiResponseImpl;
+import com.terror.springcommunity.constans.response.ApiResponseImpl;
 import lombok.Getter;
 
 @Getter

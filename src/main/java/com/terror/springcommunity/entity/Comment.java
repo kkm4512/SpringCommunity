@@ -1,6 +1,6 @@
 package com.terror.springcommunity.entity;
 
-import com.terror.springcommunity.constans.ApiResponseCommentEnum;
+import com.terror.springcommunity.constans.response.ApiResponseCommentEnum;
 import com.terror.springcommunity.exception.CommentException;
 import com.terror.springcommunity.model.comment.CommentRequestDto;
 import jakarta.persistence.*;

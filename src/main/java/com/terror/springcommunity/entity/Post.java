@@ -1,6 +1,6 @@
 package com.terror.springcommunity.entity;
 
-import com.terror.springcommunity.constans.ApiResponsePostEnum;
+import com.terror.springcommunity.constans.response.ApiResponsePostEnum;
 import com.terror.springcommunity.exception.PostException;
 import com.terror.springcommunity.model.post.PostRequestDto;
 import jakarta.persistence.*;
@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package com.terror.springcommunity.service.member;
 
-import com.terror.springcommunity.constans.ApiResponseMemberEnum;
+import com.terror.springcommunity.constans.response.ApiResponseMemberEnum;
 import com.terror.springcommunity.entity.Member;
 import com.terror.springcommunity.exception.MemberException;
 import com.terror.springcommunity.repository.MemberRepository;

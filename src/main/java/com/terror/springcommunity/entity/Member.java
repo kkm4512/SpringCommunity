@@ -1,12 +1,11 @@
 package com.terror.springcommunity.entity;
 
-import com.terror.springcommunity.constans.UserRoleEnum;
+import com.terror.springcommunity.constans.response.UserRoleEnum;
 import com.terror.springcommunity.model.member.SignUpDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Value;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.Objects;
 @Getter
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
+@Builder
 public class Member extends TimeStamp {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,6 +35,8 @@ public class Member extends TimeStamp {
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role;
 
+    private String profilePath;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "member")
     private final List<Post> postList = new ArrayList<>();
 
@@ -49,9 +50,6 @@ public class Member extends TimeStamp {
     private final List<CommentLike> commentLikeList = new ArrayList<>();
 
 
-    public void updatePassword(String password) {
-        this.password = password;
-    }
 
     public void addComment(Comment comment){
         this.commentList.add(comment);
@@ -59,6 +57,25 @@ public class Member extends TimeStamp {
 
     public void addPostList(Post post) {
         this.postList.add(post);
+    }
+
+    public Member(Long id, String username, String password, String email, String author, UserRoleEnum role) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.author = author;
+        this.role = role;
+    }
+
+    public Member(Long id, String username, String password, String email, String author, UserRoleEnum role, String profilePath) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.author = author;
+        this.role = role;
+        this.profilePath = profilePath;
     }
 
     public static Member fromSignUpDto(SignUpDto signUpDto){
@@ -69,6 +86,18 @@ public class Member extends TimeStamp {
                 signUpDto.getEmail(),
                 signUpDto.getAuthor(),
                 signUpDto.getRole()
+        );
+    }
+
+    public static Member fromSignUpDto(SignUpDto signUpDto, String profilePath){
+        return new Member(
+                null,
+                signUpDto.getUsername(),
+                signUpDto.getPassword(),
+                signUpDto.getEmail(),
+                signUpDto.getAuthor(),
+                signUpDto.getRole(),
+                profilePath
         );
     }
 

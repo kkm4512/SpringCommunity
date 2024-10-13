@@ -29,7 +29,8 @@ spring:
 
 jwt:
   secret_key: ${JWT_SECRET_KEY}
-  expired_time: ${JWT_EXPIRED_TIME}
+  access_token_expired_time: ${ACCESS_TOKEN_EXPIRED_TIME}
+  refresh_token_expired_time: ${REFRESH_TOKEN_EXPIRED_TIME}
 
 springdoc:
   swagger-ui:

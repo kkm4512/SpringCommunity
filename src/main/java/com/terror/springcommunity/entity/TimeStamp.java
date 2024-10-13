@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class TimeStamp {
     @CreatedDate
     @Column(updatable = false)
