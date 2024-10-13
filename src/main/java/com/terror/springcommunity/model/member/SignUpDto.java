@@ -1,6 +1,6 @@
 package com.terror.springcommunity.model.member;
 
-import com.terror.springcommunity.constans.UserRoleEnum;
+import com.terror.springcommunity.constans.response.UserRoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

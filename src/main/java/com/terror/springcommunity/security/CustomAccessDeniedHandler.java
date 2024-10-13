@@ -1,7 +1,7 @@
 package com.terror.springcommunity.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.terror.springcommunity.constans.ApiResponseMemberEnum;
+import com.terror.springcommunity.constans.response.ApiResponseMemberEnum;
 import com.terror.springcommunity.model.apiResponse.ApiResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

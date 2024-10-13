@@ -1,6 +1,6 @@
 package com.terror.springcommunity.config;
 
-import com.terror.springcommunity.jwt.JwtManager;
+import com.terror.springcommunity.security.JwtManager;
 import com.terror.springcommunity.security.CustomAccessDeniedHandler;
 import com.terror.springcommunity.security.CustomAuthenticationEntryPoint;
 import com.terror.springcommunity.security.JwtAuthorizationFilter;
@@ -56,8 +56,8 @@ public class SecurityConfig {
 
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("api/auth/**").permitAll()
-                        .requestMatchers("api/refresh-token").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/profile/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .build();

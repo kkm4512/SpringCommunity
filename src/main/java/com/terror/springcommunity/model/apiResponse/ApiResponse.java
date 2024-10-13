@@ -1,7 +1,6 @@
 package com.terror.springcommunity.model.apiResponse;
 
-import com.terror.springcommunity.constans.ApiResponseImpl;
-import com.terror.springcommunity.constans.ApiResponseMemberEnum;
+import com.terror.springcommunity.constans.response.ApiResponseImpl;
 import lombok.Getter;
 
 @Getter

@@ -1,4 +1,4 @@
-package com.terror.springcommunity.constans;
+package com.terror.springcommunity.constans.response;
 
 import lombok.Getter;
 
