@@ -3,25 +3,31 @@ package com.terror.springcommunity.service.file;
 import com.terror.springcommunity.constans.response.ApiResponseFileEnum;
 import com.terror.springcommunity.exception.FileException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import java.io.IOException;
-import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
-import static com.terror.springcommunity.constans.commonPath.GlobalPath.PROFILES_PATH;
-import static com.terror.springcommunity.constans.commonPath.GlobalPath.SEPARATOR;
+import static com.terror.springcommunity.constans.commonPath.GlobalPath.*;
 
 
 @Service
+@Slf4j(topic = "FileServiceImpl")
 @RequiredArgsConstructor
 public class FileServiceImpl implements FileService {
     private final DirectoryUtil directoryUtil;
     private final FileValidateUtil fileValidateUtil;
     private final FileGenerateUtil fileGenerateUtil;
     private final FilePathUtil filePathUtil;
+    //ㅎㅇ
 
     // 이미지를 저장하는 책임만 있음
     @Override
@@ -32,23 +38,21 @@ public class FileServiceImpl implements FileService {
         }
         // username 추출
         String username = filePathUtil.getLastFilePath(path);
+        log.info("username {}", username);
         String fileName = fileGenerateUtil.generateFileName(file);
+        log.info("fileName {}", fileName);
         Path filePath = filePathUtil.getFilePath(path, fileName);
         fileGenerateUtil.copyFile(file, filePath);
-        return PROFILES_PATH + SEPARATOR + username + SEPARATOR + fileName;
+        return PROFILE + SEPARATOR + username + SEPARATOR + fileName;
     }
 
     @Override
     public String download(String path) {
-        try {
-            URL url = new URL(path);
-            String filePath = url.getPath();
-            System.out.println(filePath);
-        } catch (IOException e) {
-            throw new FileException(ApiResponseFileEnum.FILE_URL_FAIL);
-        }
-
-        return "";
+        Path filePath = Paths.get(path);
+        String encodedPath = URLEncoder.encode(filePath.toString(), StandardCharsets.UTF_8)
+                .replace("+", "%20")
+                .replace("%2F", "/");
+        return BASE_URL + SEPARATOR + encodedPath;
     }
 
     @Override
