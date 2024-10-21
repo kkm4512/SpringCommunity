@@ -27,7 +27,7 @@ public class FileServiceImpl implements FileService {
     private final FileValidateUtil fileValidateUtil;
     private final FileGenerateUtil fileGenerateUtil;
     private final FilePathUtil filePathUtil;
-    //ㅎㅇ
+    //회원가입 기능 구현 예시
 
     // 이미지를 저장하는 책임만 있음
     @Override
